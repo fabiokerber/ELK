@@ -123,7 +123,7 @@ DELETE _component_template/logs-component-template
 DELETE _ilm/policy/logs-policy
 ```
 
-```
+```yml
 PUT _component_template/enterprise-logs-new-component-template
 {
   "template": {
