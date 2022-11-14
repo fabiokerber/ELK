@@ -1,0 +1,69 @@
+Vagrant.configure('2') do |config|
+
+    config.env.enable
+    config.vm.boot_timeout = 1200
+
+    if Vagrant.has_plugin?("vagrant-vbguest")
+        config.vbguest.auto_update = false
+    end
+
+    config.vm.define 'elk' do |elk|
+
+        elk.vm.box = 'debian/bullseye64'
+        elk.vm.hostname = 'log.aut.lab'
+        elk.vm.network 'private_network', ip: ENV['LOG_IP']
+
+        elk.vm.provision 'shell', inline: 'echo "$IP srv01.aut.lab srv01" >> /etc/hosts', env: {"IP" => ENV['SRV01_IP']}
+
+        elk.vm.provision 'shell', inline: 'sudo timedatectl set-timezone $TZ', env: {"TZ" => ENV['TIMEZONE']}
+        elk.vm.provision 'shell', inline: 'sudo sysctl -w vm.max_map_count=262144'
+        elk.vm.provision 'shell', inline: 'sudo apt update'
+
+        elk.vm.provision 'shell', inline: 'sudo apt install -y vim git'
+        elk.vm.provision 'shell', inline: 'sudo apt install -y ca-certificates curl gnupg2 software-properties-common acl'
+        elk.vm.provision 'shell', inline: 'sudo mkdir -p /etc/apt/keyrings'
+        elk.vm.provision 'shell', inline: 'curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg'
+        elk.vm.provision 'shell', inline: 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+        elk.vm.provision 'shell', inline: 'sudo apt update'
+        elk.vm.provision 'shell', inline: 'sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin'
+        elk.vm.provision 'shell', inline: 'sudo systemctl restart docker'
+        elk.vm.provision 'shell', inline: 'sudo setfacl -m user:vagrant:rw /var/run/docker.sock'
+        elk.vm.provision 'shell', inline: 'sudo usermod -aG docker vagrant'
+
+        elk.vm.provision 'shell', inline: 'mkdir -p /home/vagrant/volumes/elk'
+        elk.vm.provision 'shell', inline: 'sudo chown vagrant. -R /home/vagrant/volumes'
+        elk.vm.provision 'shell', inline: 'docker network create elk-net'
+        elk.vm.provision 'shell', inline: 'docker compose -f /vagrant/files/elk-docker-compose.yml up -d'
+
+        elk.vm.provider 'virtualbox' do |vb|
+            vb.memory = 4096
+            vb.cpus = 4
+            vb.name = 'log.aut.lab'
+            vb.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+
+        end
+
+    end
+
+    config.vm.define 'srv01' do |srv01|
+
+        srv01.vm.box = 'ubuntu/focal64'
+        srv01.vm.hostname = 'srv01.aut.lab'
+        srv01.vm.network 'private_network', ip: ENV['SRV01_IP'], bridge: ENV['INTERFACE']
+
+        srv01.vm.provision 'shell', inline: 'echo "$IP log.aut.lab log" >> /etc/hosts', env: {"IP" => ENV['LOG_IP']}
+
+        srv01.vm.provision 'shell', inline: 'sudo timedatectl set-timezone $TZ', env: {"TZ" => ENV['TIMEZONE']}
+        srv01.vm.provision 'shell', inline: 'sudo apt update'
+
+        srv01.vm.provider 'virtualbox' do |vb|
+            vb.memory = 1024
+            vb.cpus = 2
+            vb.name = 'srv01.aut.lab'
+            vb.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+
+        end
+
+    end
+
+end
