@@ -1,8 +1,8 @@
-version: "3.7"
+version: '3.7'
 services:
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${VER_TAG}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
     container_name: elasticsearch
     restart: unless-stopped
     environment:
@@ -21,27 +21,53 @@ services:
       - "/home/vagrant/volumes/elk:/usr/share/elasticsearch/data"
     ports:
       - "9200:9200"
+      - "9300:9300"
     networks:
       - elk-network
 
+##  elasticsearch:
+##    image: docker.elastic.co/elasticsearch/elasticsearch:${VER_TAG}
+##    container_name: elasticsearch
+##    restart: unless-stopped
+##    volumes:
+##      - /home/vagrant/volumes/elk/elastic/data:/usr/share/elasticsearch/data
+##      - /home/vagrant/volumes/elk/elastic/config:/usr/share/elasticsearch/config
+##    ports:
+##      - "9200:9200"
+##      - "9300:9300"
+##    environment:
+##      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+##      ELASTIC_PWD: elasticsuper
+##      KIBANA_PWD: MNmbiuv2ZlgWoPm
+##      LOGSTASH_PWD: yrp7vWjc01DBkoo
+##      discovery.type: single-node
+##    networks:
+##      - elk-network
+##
+
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:${VER_TAG}
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash-oss:${ELK_VERSION}
+    restart: unless-stopped
     volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - /home/vagrant/volumes/elk/logstash/config:/etc/logstash/conf.d
     ports:
-      - "5000:5000"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LOGSTASH_PWD: yrp7vWjc01DBkoo
+      ELASTICSEARCH_HOST: http://elasticsearch:9200
+      ELASTICSEARCH_PORT: 9200
     networks:
       - elk-network
     depends_on:
       - elasticsearch
-    links:
-      - elasticsearch
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:${VER_TAG}
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
     restart: unless-stopped
     environment:
       SERVER_NAME: kibana
@@ -56,3 +82,20 @@ services:
 networks:
   elk-network:
     driver: bridge
+
+##  kibana:
+##    container_name: kibana
+##    image: docker.elastic.co/kibana/kibana:${VER_TAG}
+##    restart: unless-stopped
+##    volumes:
+##      - /home/vagrant/volumes/elk/kibana/config:/opt/kibana/config
+##    environment:
+##      SERVER_NAME: kibana
+##      KIBANA_PWD: MNmbiuv2ZlgWoPm
+##      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+##    ports:
+##      - "5601:5601"
+##    networks:
+##      - elk-network
+##    depends_on:
+##      - elasticsearch
