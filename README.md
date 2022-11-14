@@ -16,7 +16,7 @@
 ```
 
 **LAB 1**
-```json
+```yml
 PUT _ilm/policy/logs-policy
 {
     "policy": {
