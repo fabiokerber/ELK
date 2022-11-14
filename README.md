@@ -142,11 +142,11 @@ PUT _index_template/enterprise-logs
     "enterprise-logs-new-*"
   ],
   "composed_of": [
-    "enterprise-logs-component-template"
+    "enterprise-logs-new-component-template"
   ],
   "template": {
     "settings": {
-      "index.lifecycle.name": "enterprise-logs-new-policy"
+      "index.lifecycle.name": "enterprise-logs-policy"
     }
   }
 }
