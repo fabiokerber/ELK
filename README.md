@@ -57,7 +57,7 @@ PUT _ilm/policy/enterprise-logs-policy
           "min_age" : "5m",
           "actions" : {
             "shrink" : {
-              "number_of_shards" : 10
+              "number_of_shards" : 1
             }
           }
         },
@@ -83,8 +83,8 @@ PUT _component_template/server-logs-component-template
 {
   "template": {
     "settings": {
-      "number_of_shards": 10,
-      "number_of_replicas": 1,
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
       "index.lifecycle.name": "enterprise-logs-policy",
       "index.lifecycle.rollover_alias": "server-logs"
     }
@@ -125,8 +125,8 @@ PUT _component_template/network-logs-component-template
 {
   "template": {
     "settings": {
-      "number_of_shards": 10,
-      "number_of_replicas": 1,
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
       "index.lifecycle.name": "enterprise-logs-policy",
       "index.lifecycle.rollover_alias": "network-logs"
     }
@@ -168,7 +168,7 @@ Index pattern: network-logs-*
 for i in {1..10000}
 do
         NOW=$(date '+%b %d, %Y @ %H:%M:%S')
-        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/enterprise-logs/_doc" -d '{"timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar risus et justo consequat, laoreet mattis quam aliquet. Sed lacinia maximus urna, ut rhoncus metus tincidunt eu. Aenean sem urna, convallis eget pharetra eu, molestie id tortor. Suspendisse potenti. Nunc egestas lorem tellus, a consequat leo gravida id.","environment": "stg"}'
+        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
 
@@ -176,7 +176,7 @@ $ chmod +x loop.sh
 $ bash loop.sh
 ```
 
-**Deny Logs - API**
+**Allow/Deny Logs - API**
 
 Example:
 ```yml
@@ -195,7 +195,18 @@ PUT /_cluster/settings
   }
 }
 ```
-You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny* settings in elasticsearch.yml.<br>
+
+Example Lab:<br>
+```yml
+PUT /_cluster/settings
+{
+  "persistent" : {
+    "xpack.security.transport.filter.allow": "192.168.56.1",
+    "xpack.security.transport.filter.deny": "192.168.56.0/24"
+  }
+}
+```
+You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.<br>
 Allow rules take precedence over the deny rules.<br>
 ```yml
 xpack.security.transport.filter.allow: "192.168.0.1"
