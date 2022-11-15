@@ -21,6 +21,24 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.htm
 > http://LOG_IP:9200
 ```
 
+**COMMANDS**
+```yml
+GET _ilm/policy/enterprise-logs-policy
+GET _component_template/enterprise-logs-component-template
+GET _index_template/enterprise-logs
+GET enterprise-survey-000001
+GET entreprise-survey-*/_ilm/explain
+
+GET _ilm/policy/logs-policy
+GET _component_template/logs-component-template
+GET _index_template/logs
+
+DELETE _data_stream/log-stream
+DELETE _index_template/logs-index-template
+DELETE _component_template/logs-component-template
+DELETE _ilm/policy/logs-policy
+```
+
 **LAB 1**
 ```yml
 PUT _ilm/policy/enterprise-logs-policy
@@ -31,7 +49,7 @@ PUT _ilm/policy/enterprise-logs-policy
           "min_age" : "0ms",
           "actions" : {
             "rollover" : {
-              "max_primary_shard_size" : "200kb"
+              "max_primary_shard_size" : "500kb"
             }
           }
         },
@@ -65,8 +83,8 @@ PUT _component_template/enterprise-logs-component-template
 {
   "template": {
     "settings": {
-      "number_of_shards": 1,
-      "number_of_replicas": 0,
+      "number_of_shards": 10,
+      "number_of_replicas": 1,
       "index.lifecycle.name": "enterprise-logs-policy",
       "index.lifecycle.rollover_alias": "enterprise-logs"
     }
@@ -97,31 +115,10 @@ PUT enterprise-logs-000001
     }
 }
 
-POST enterprise-logs/_doc
-{
-  "timestamp": "'"${NOW}"'",
-  "info": "some infos",
-  "environment": "test"
-}
-
 CREATE INDEX PATTERN
 Name: enterprise-logs
 Index pattern: enterprise-logs-*
 
-GET _ilm/policy/enterprise-logs-policy
-GET _component_template/enterprise-logs-component-template
-GET _index_template/enterprise-logs
-GET enterprise-survey-000001
-GET entreprise-survey-*/_ilm/explain
-
-GET _ilm/policy/logs-policy
-GET _component_template/logs-component-template
-GET _index_template/logs
-
-DELETE _data_stream/log-stream
-DELETE _index_template/logs-index-template
-DELETE _component_template/logs-component-template
-DELETE _ilm/policy/logs-policy
 ```
 
 ```yml
@@ -129,8 +126,8 @@ PUT _component_template/enterprise-logs-new-component-template
 {
   "template": {
     "settings": {
-      "number_of_shards": 1,
-      "number_of_replicas": 0,
+      "number_of_shards": 10,
+      "number_of_replicas": 1,
       "index.lifecycle.name": "enterprise-logs-policy",
       "index.lifecycle.rollover_alias": "enterprise-logs-new"
     }
@@ -160,6 +157,10 @@ PUT enterprise-logs-new-000001
         }
     }
 }
+
+CREATE INDEX PATTERN
+Name: enterprise-logs-new
+Index pattern: enterprise-logs-new-*
 ```
 
 **Send Logs**
