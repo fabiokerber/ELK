@@ -25,26 +25,6 @@ services:
     networks:
       - elk-network
 
-##  elasticsearch:
-##    image: docker.elastic.co/elasticsearch/elasticsearch:${VER_TAG}
-##    container_name: elasticsearch
-##    restart: unless-stopped
-##    volumes:
-##      - /home/vagrant/volumes/elk/elastic/data:/usr/share/elasticsearch/data
-##      - /home/vagrant/volumes/elk/elastic/config:/usr/share/elasticsearch/config
-##    ports:
-##      - "9200:9200"
-##      - "9300:9300"
-##    environment:
-##      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-##      ELASTIC_PWD: elasticsuper
-##      KIBANA_PWD: MNmbiuv2ZlgWoPm
-##      LOGSTASH_PWD: yrp7vWjc01DBkoo
-##      discovery.type: single-node
-##    networks:
-##      - elk-network
-##
-
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash-oss:${ELK_VERSION}
@@ -57,8 +37,7 @@ services:
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-      LOGSTASH_PWD: yrp7vWjc01DBkoo
-      ELASTICSEARCH_HOST: http://elasticsearch:9200
+      ELASTICSEARCH_HOST: http://localhost:9200
       ELASTICSEARCH_PORT: 9200
     networks:
       - elk-network
@@ -71,7 +50,9 @@ services:
     restart: unless-stopped
     environment:
       SERVER_NAME: kibana
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://localhost:9200
+    volumes:
+      - /home/vagrant/volumes/elk/kibana/config:/opt/kibana/config
     ports:
       - "5601:5601"
     networks:
@@ -82,20 +63,3 @@ services:
 networks:
   elk-network:
     driver: bridge
-
-##  kibana:
-##    container_name: kibana
-##    image: docker.elastic.co/kibana/kibana:${VER_TAG}
-##    restart: unless-stopped
-##    volumes:
-##      - /home/vagrant/volumes/elk/kibana/config:/opt/kibana/config
-##    environment:
-##      SERVER_NAME: kibana
-##      KIBANA_PWD: MNmbiuv2ZlgWoPm
-##      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-##    ports:
-##      - "5601:5601"
-##    networks:
-##      - elk-network
-##    depends_on:
-##      - elasticsearch
