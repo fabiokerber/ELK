@@ -57,7 +57,7 @@ PUT _ilm/policy/enterprise-logs-policy
           "min_age" : "5m",
           "actions" : {
             "shrink" : {
-              "number_of_shards" : 1
+              "number_of_shards" : 10
             }
           }
         },
@@ -79,25 +79,25 @@ PUT _ilm/policy/enterprise-logs-policy
     }
 }
 
-PUT _component_template/enterprise-logs-component-template
+PUT _component_template/server-logs-component-template
 {
   "template": {
     "settings": {
       "number_of_shards": 10,
       "number_of_replicas": 1,
       "index.lifecycle.name": "enterprise-logs-policy",
-      "index.lifecycle.rollover_alias": "enterprise-logs"
+      "index.lifecycle.rollover_alias": "server-logs"
     }
   }
 }
 
-PUT _index_template/enterprise-logs
+PUT _index_template/server-logs
 {
   "index_patterns": [
-    "enterprise-logs-*"
+    "server-logs-*"
   ],
   "composed_of": [
-    "enterprise-logs-component-template"
+    "server-logs-component-template"
   ],
   "template": {
     "settings": {
@@ -106,41 +106,40 @@ PUT _index_template/enterprise-logs
   }
 }
 
-PUT enterprise-logs-000001
+PUT server-logs-000001
 {
     "aliases": {
-        "enterprise-logs": {
+        "server-logs": {
             "is_write_index": true
         }
     }
 }
 
 CREATE INDEX PATTERN
-Name: enterprise-logs
-Index pattern: enterprise-logs-*
-
+Name: server-logs
+Index pattern: server-logs-*
 ```
 
 ```yml
-PUT _component_template/enterprise-logs-new-component-template
+PUT _component_template/network-logs-component-template
 {
   "template": {
     "settings": {
       "number_of_shards": 10,
       "number_of_replicas": 1,
       "index.lifecycle.name": "enterprise-logs-policy",
-      "index.lifecycle.rollover_alias": "enterprise-logs-new"
+      "index.lifecycle.rollover_alias": "network-logs"
     }
   }
 }
 
-PUT _index_template/enterprise-logs
+PUT _index_template/network-logs
 {
   "index_patterns": [
-    "enterprise-logs-new-*"
+    "network-logs-*"
   ],
   "composed_of": [
-    "enterprise-logs-new-component-template"
+    "network-logs-component-template"
   ],
   "template": {
     "settings": {
@@ -149,18 +148,18 @@ PUT _index_template/enterprise-logs
   }
 }
 
-PUT enterprise-logs-new-000001
+PUT network-logs-000001
 {
     "aliases": {
-        "enterprise-logs-new": {
+        "network-logs": {
             "is_write_index": true
         }
     }
 }
 
 CREATE INDEX PATTERN
-Name: enterprise-logs-new
-Index pattern: enterprise-logs-new-*
+Name: network-logs
+Index pattern: network-logs-*
 ```
 
 **Send Logs**
@@ -169,7 +168,7 @@ Index pattern: enterprise-logs-new-*
 for i in {1..10000}
 do
         NOW=$(date '+%b %d, %Y @ %H:%M:%S')
-        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/enterprise-logs-new/_doc" -d '{"timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar risus et justo consequat, laoreet mattis quam aliquet. Sed lacinia maximus urna, ut rhoncus metus tincidunt eu. Aenean sem urna, convallis eget pharetra eu, molestie id tortor. Suspendisse potenti. Nunc egestas lorem tellus, a consequat leo gravida id.","environment": "test"}'
+        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/enterprise-logs/_doc" -d '{"timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar risus et justo consequat, laoreet mattis quam aliquet. Sed lacinia maximus urna, ut rhoncus metus tincidunt eu. Aenean sem urna, convallis eget pharetra eu, molestie id tortor. Suspendisse potenti. Nunc egestas lorem tellus, a consequat leo gravida id.","environment": "stg"}'
         echo "" 
 done
 
