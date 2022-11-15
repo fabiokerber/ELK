@@ -1,6 +1,6 @@
 # ELK
 
-**Links**
+**Links**<br>
 https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
 https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
@@ -164,7 +164,7 @@ Index pattern: enterprise-logs-new-*
 ```
 
 **Send Logs**
-```
+```bash
 #!/bin/bash
 for i in {1..10000}
 do
@@ -180,7 +180,7 @@ $ bash loop.sh
 **Deny Logs - API**
 
 Example:
-```
+```yml
 PUT /_cluster/settings
 {
   "persistent" : {
@@ -188,7 +188,7 @@ PUT /_cluster/settings
   }
 }
 ```
-```
+```yml
 PUT /_cluster/settings
 {
   "persistent" : {
@@ -198,37 +198,37 @@ PUT /_cluster/settings
 ```
 You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny* settings in elasticsearch.yml.<br>
 Allow rules take precedence over the deny rules.<br>
-```
+```yml
 xpack.security.transport.filter.allow: "192.168.0.1"
 xpack.security.transport.filter.deny: "192.168.0.0/24"
 ```
 
 The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed.
-```
+```yml
 xpack.security.transport.filter.allow: [ "192.168.0.1", "192.168.0.2", "192.168.0.3", "192.168.0.4" ]
 xpack.security.transport.filter.deny: _all
 ```
 
 IP filtering configuration also support *IPv6 addresses*.
-```
+```yml
 xpack.security.transport.filter.allow: "2001:0db8:1234::/48"
 xpack.security.transport.filter.deny: "1234:0db8:85a3:0000:0000:8a2e:0370:7334"
 ```
 
 You can also filter by hostnames when *DNS lookups* are available.
-```
+```yml
 xpack.security.transport.filter.allow: localhost
 xpack.security.transport.filter.deny: '*.google.com'
 ```
 
 *Disabling IP filtering* can slightly improve performance under some conditions.<br>
 To disable IP filtering entirely:
-```
+```yml
 xpack.security.transport.filter.enabled: false
 ```
 
 You can also disable IP filtering for the transport protocol but enable it for HTTP only.
-```
+```yml
 xpack.security.transport.filter.enabled: false
 xpack.security.http.filter.enabled: true
 ```
