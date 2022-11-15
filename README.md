@@ -4,6 +4,7 @@
 https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
 https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
 
 ```
 > Vagrantfile
@@ -161,15 +162,72 @@ PUT enterprise-logs-new-000001
 }
 ```
 
-**Bash**
+**Send Logs**
 ```
 #!/bin/bash
-NOW=$(date '+%b %d, %Y @ %H:%M:%S')
-for i in {1..100}
+for i in {1..10000}
 do
-curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/enterprise-logs/_doc" -d '{"timestamp": "'"${NOW}"'","info": "some infos","environment": "test"}'
+        NOW=$(date '+%b %d, %Y @ %H:%M:%S')
+        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/enterprise-logs-new/_doc" -d '{"timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar risus et justo consequat, laoreet mattis quam aliquet. Sed lacinia maximus urna, ut rhoncus metus tincidunt eu. Aenean sem urna, convallis eget pharetra eu, molestie id tortor. Suspendisse potenti. Nunc egestas lorem tellus, a consequat leo gravida id.","environment": "test"}'
+        echo "" 
 done
 
 $ chmod +x loop.sh
 $ bash loop.sh
+```
+
+**Deny Logs - API**
+
+Example:
+```
+PUT /_cluster/settings
+{
+  "persistent" : {
+    "xpack.security.transport.filter.allow" : "172.16.0.0/24"
+  }
+}
+```
+```
+PUT /_cluster/settings
+{
+  "persistent" : {
+    "xpack.security.transport.filter.enabled" : false
+  }
+}
+```
+You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny* settings in elasticsearch.yml.<br>
+Allow rules take precedence over the deny rules.<br>
+```
+xpack.security.transport.filter.allow: "192.168.0.1"
+xpack.security.transport.filter.deny: "192.168.0.0/24"
+```
+
+The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed.
+```
+xpack.security.transport.filter.allow: [ "192.168.0.1", "192.168.0.2", "192.168.0.3", "192.168.0.4" ]
+xpack.security.transport.filter.deny: _all
+```
+
+IP filtering configuration also support *IPv6 addresses*.
+```
+xpack.security.transport.filter.allow: "2001:0db8:1234::/48"
+xpack.security.transport.filter.deny: "1234:0db8:85a3:0000:0000:8a2e:0370:7334"
+```
+
+You can also filter by hostnames when *DNS lookups* are available.
+```
+xpack.security.transport.filter.allow: localhost
+xpack.security.transport.filter.deny: '*.google.com'
+```
+
+*Disabling IP filtering* can slightly improve performance under some conditions.<br>
+To disable IP filtering entirely:
+```
+xpack.security.transport.filter.enabled: false
+```
+
+You can also disable IP filtering for the transport protocol but enable it for HTTP only.
+```
+xpack.security.transport.filter.enabled: false
+xpack.security.http.filter.enabled: true
 ```
