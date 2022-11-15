@@ -39,7 +39,7 @@ DELETE _component_template/logs-component-template
 DELETE _ilm/policy/logs-policy
 ```
 
-**LAB 1**
+**POLICY**
 ```yml
 PUT _ilm/policy/enterprise-logs-policy
 {
@@ -78,7 +78,10 @@ PUT _ilm/policy/enterprise-logs-policy
       }
     }
 }
+```
 
+**LAB 1 - INDEX**
+```yml
 PUT _component_template/server-logs-component-template
 {
   "template": {
@@ -162,10 +165,47 @@ Name: network-logs
 Index pattern: network-logs-*
 ```
 
+**LAB 2 - DATA STREAM**
+```yml
+PUT _component_template/server-logs-component-template
+{
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "index.lifecycle.name": "enterprise-logs-policy",
+      "index.lifecycle.rollover_alias": "server-logs"
+    }
+  }
+}
+
+PUT _index_template/server-logs
+{
+  "index_patterns": [
+    "server-logs-*"
+  ],
+  "data_stream": {},
+  "composed_of": [
+    "server-logs-component-template"
+  ],
+  "template": {
+    "settings": {
+      "index.lifecycle.name": "enterprise-logs-policy"
+    }
+  }
+}
+
+PUT _data_stream/server-logs-000001
+
+CREATE INDEX PATTERN
+Name: server-logs
+Index pattern: server-logs-*
+```
+
 **Send Logs**
 ```bash
 #!/bin/bash
-for i in {1..10000}
+for i in {1..25000}
 do
         NOW=$(date '+%b %d, %Y @ %H:%M:%S')
         curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
