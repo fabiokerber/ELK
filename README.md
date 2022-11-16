@@ -15,7 +15,6 @@ https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
 https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
 https://github.com/elastic/elasticsearch/issues/32531<br>
 https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
-
 ```yml
 > Vagrantfile
   elk.vm.provision 'shell', inline: 'dockerd --max-concurrent-downloads 2 &>/dev/null' ("Weak Network")
