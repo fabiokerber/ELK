@@ -10,7 +10,6 @@ services:
       xpack.license.self_generated.type: basic
       xpack.security.enabled: false
       xpack.monitoring.collection.enabled: true
-      xpack.security.enrollment.enabled: false
       LS_JAVA_OPTS: '-Xm1g -Xms1g'
       ELASTIC_USERNAME: ${ELASTIC_USERNAME}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
