@@ -6,10 +6,12 @@ services:
     container_name: elasticsearch
     restart: unless-stopped
     environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-      - xpack.license.self_generated.type=basic
-      - xpack.monitoring.collection.enabled=true
+      xpack.license.self_generated.type: basic
+      xpack.security.enabled: false
+      discovery.type: single-node
+      xpack.monitoring.collection.enabled: true
+      LS_JAVA_OPTS: "-Xm1g -Xms1g"
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     ulimits: 
       memlock:
         soft: -1 
@@ -20,7 +22,8 @@ services:
     cap_add: 
       - IPC_LOCK
     volumes:
-      - "/home/vagrant/volumes/elk:/usr/share/elasticsearch/data"
+      - "/home/vagrant/volumes/elk/elastic/data:/usr/share/elasticsearch/data"
+      - "/home/vagrant/volumes/elk/elastic/config:/usr/share/elasticsearch/config"
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -31,16 +34,18 @@ services:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash-oss:${ELK_VERSION}
     restart: unless-stopped
-    volumes:
-      - /home/vagrant/volumes/elk/logstash/config:/etc/logstash/conf.d
-    ports:
-      - "5000:5000"
-      - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-      LOGSTASH_PWD: yrp7vWjc01DBkoo
-      ELASTICSEARCH_HOST: http://elasticsearch:9200
-      ELASTICSEARCH_PORT: 9200
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+      ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
+    volumes:
+      - /home/vagrant/volumes/elk/logstash/conf.d:/etc/logstash/conf.d
+      - /home/vagrant/volumes/elk/logstash/config:/usr/share/logstash/config
+    ports:
+      - "5000:5000"
+      - "5044:5044"
+      - "9600:9600"
     networks:
       - elk-network
     depends_on:
@@ -52,8 +57,14 @@ services:
     restart: unless-stopped
     environment:
       SERVER_NAME: kibana
-      KIBANA_PWD: MNmbiuv2ZlgWoPm
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      KIBANA_PWD: ${KIBANA_PWD}
+      ELASTICSEARCH_HOSTS: ${ELASTICSEARCH_HOSTS}
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: ${XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD}
+    volumes:
+      - /home/vagrant/volumes/elk/kibana/config:/usr/share/kibana/config
     ports:
       - "5601:5601"
     networks:

@@ -6,6 +6,7 @@ https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
 https://aravind.dev/elastic-data-stream/<br>
+https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
 
 ```
 > Vagrantfile
@@ -42,7 +43,7 @@ DELETE _ilm/policy/logs-policy
 
 **POLICY**
 ```yml
-PUT _ilm/policy/enterprise-logs-policy
+PUT /_ilm/policy/enterprise-logs-policy
 {
     "policy": {
       "phases" : {
@@ -81,9 +82,9 @@ PUT _ilm/policy/enterprise-logs-policy
 }
 ```
 
-**LAB 1**
+**LAB 1 - INDEX**
 ```yml
-PUT _component_template/server-logs-component-template
+PUT /_component_template/server-logs-component-template
 {
   "template": {
     "settings": {
@@ -95,7 +96,7 @@ PUT _component_template/server-logs-component-template
   }
 }
 
-PUT _index_template/server-logs
+PUT /_index_template/server-logs
 {
   "index_patterns": [
     "server-logs-*"
@@ -110,7 +111,7 @@ PUT _index_template/server-logs
   }
 }
 
-PUT server-logs-000001
+PUT /server-logs-000001
 {
     "aliases": {
         "server-logs": {
@@ -118,14 +119,14 @@ PUT server-logs-000001
         }
     }
 }
+ ```
 
-CREATE INDEX PATTERN
+**CREATE INDEX PATTERN**
 Name: server-logs
 Index pattern: server-logs-*
-```
 
 ```yml
-PUT _component_template/network-logs-component-template
+PUT /_component_template/network-logs-component-template
 {
   "template": {
     "settings": {
@@ -137,7 +138,7 @@ PUT _component_template/network-logs-component-template
   }
 }
 
-PUT _index_template/network-logs
+PUT /_index_template/network-logs
 {
   "index_patterns": [
     "network-logs-*"
@@ -152,7 +153,7 @@ PUT _index_template/network-logs
   }
 }
 
-PUT network-logs-000001
+PUT /network-logs-000001
 {
     "aliases": {
         "network-logs": {
@@ -160,11 +161,11 @@ PUT network-logs-000001
         }
     }
 }
+```
 
-CREATE INDEX PATTERN
+**CREATE INDEX PATTERN**
 Name: network-logs
 Index pattern: network-logs-*
-```
 
 **Send Logs**
 ```bash

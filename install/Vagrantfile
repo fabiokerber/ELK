@@ -31,8 +31,8 @@ Vagrant.configure('2') do |config|
         elk.vm.provision 'shell', inline: 'sudo usermod -aG docker vagrant'
 
         elk.vm.provision 'shell', inline: 'mkdir -p /home/vagrant/volumes/elk/elastic/{data,config}'
+        elk.vm.provision 'shell', inline: 'mkdir -p /home/vagrant/volumes/elk/logstash/{conf.d,config}'
         elk.vm.provision 'shell', inline: 'mkdir -p /home/vagrant/volumes/elk/kibana/config'
-        elk.vm.provision 'shell', inline: 'mkdir -p /home/vagrant/volumes/elk/logstash/config'
         elk.vm.provision 'shell', inline: 'sudo cp /vagrant/files/logstash.conf /home/vagrant/volumes/elk/logstash/config/'
         elk.vm.provision 'shell', inline: 'sudo chown vagrant. -R /home/vagrant/volumes'
         elk.vm.provision 'shell', inline: 'docker network create elk-network'
