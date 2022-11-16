@@ -5,7 +5,6 @@ https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
 https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
-https://aravind.dev/elastic-data-stream/<br>
 
 ```
 > Vagrantfile
