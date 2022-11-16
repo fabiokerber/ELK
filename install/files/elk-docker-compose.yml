@@ -8,6 +8,8 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - xpack.license.self_generated.type=basic
+      - xpack.monitoring.collection.enabled=true
     ulimits: 
       memlock:
         soft: -1 
@@ -25,26 +27,6 @@ services:
     networks:
       - elk-network
 
-##  elasticsearch:
-##    image: docker.elastic.co/elasticsearch/elasticsearch:${VER_TAG}
-##    container_name: elasticsearch
-##    restart: unless-stopped
-##    volumes:
-##      - /home/vagrant/volumes/elk/elastic/data:/usr/share/elasticsearch/data
-##      - /home/vagrant/volumes/elk/elastic/config:/usr/share/elasticsearch/config
-##    ports:
-##      - "9200:9200"
-##      - "9300:9300"
-##    environment:
-##      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-##      ELASTIC_PWD: elasticsuper
-##      KIBANA_PWD: MNmbiuv2ZlgWoPm
-##      LOGSTASH_PWD: yrp7vWjc01DBkoo
-##      discovery.type: single-node
-##    networks:
-##      - elk-network
-##
-
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash-oss:${ELK_VERSION}
@@ -52,8 +34,7 @@ services:
     volumes:
       - /home/vagrant/volumes/elk/logstash/config:/etc/logstash/conf.d
     ports:
-      - "5000:5000/tcp"
-      - "5000:5000/udp"
+      - "5000:5000"
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
@@ -71,6 +52,7 @@ services:
     restart: unless-stopped
     environment:
       SERVER_NAME: kibana
+      KIBANA_PWD: MNmbiuv2ZlgWoPm
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
       - "5601:5601"
@@ -82,20 +64,3 @@ services:
 networks:
   elk-network:
     driver: bridge
-
-##  kibana:
-##    container_name: kibana
-##    image: docker.elastic.co/kibana/kibana:${VER_TAG}
-##    restart: unless-stopped
-##    volumes:
-##      - /home/vagrant/volumes/elk/kibana/config:/opt/kibana/config
-##    environment:
-##      SERVER_NAME: kibana
-##      KIBANA_PWD: MNmbiuv2ZlgWoPm
-##      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-##    ports:
-##      - "5601:5601"
-##    networks:
-##      - elk-network
-##    depends_on:
-##      - elasticsearch

@@ -5,6 +5,7 @@ https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
 https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
+https://aravind.dev/elastic-data-stream/<br>
 
 ```
 > Vagrantfile
@@ -39,7 +40,7 @@ DELETE _component_template/logs-component-template
 DELETE _ilm/policy/logs-policy
 ```
 
-**LAB 1**
+**POLICY**
 ```yml
 PUT _ilm/policy/enterprise-logs-policy
 {
@@ -78,7 +79,10 @@ PUT _ilm/policy/enterprise-logs-policy
       }
     }
 }
+```
 
+**LAB 1**
+```yml
 PUT _component_template/server-logs-component-template
 {
   "template": {
@@ -165,9 +169,9 @@ Index pattern: network-logs-*
 **Send Logs**
 ```bash
 #!/bin/bash
-for i in {1..10000}
+for i in {1..25000}
 do
-        NOW=$(date '+%b %d, %Y @ %H:%M:%S')
+        NOW=$(date '+%b %d, %Y @ %H:%M:%S.%3N')
         curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
