@@ -167,7 +167,7 @@ Index pattern: network-logs-*
 #!/bin/bash
 for i in {1..10000}
 do
-        NOW=$(date '+%b %d, %Y @ %H:%M:%S.%3N')
+        NOW=$(date '+%b %d, %Y @ %H:%M:%S')
         curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
