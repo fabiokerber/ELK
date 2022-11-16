@@ -2,16 +2,22 @@ version: '3.7'
 services:
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     container_name: elasticsearch
     restart: unless-stopped
     environment:
+      discovery.type: single-node
       xpack.license.self_generated.type: basic
       xpack.security.enabled: false
-      discovery.type: single-node
       xpack.monitoring.collection.enabled: true
-      LS_JAVA_OPTS: "-Xm1g -Xms1g"
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      xpack.security.enrollment.enabled: false
+      LS_JAVA_OPTS: '-Xm1g -Xms1g'
+      ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
+      STACK_VERSION: ${STACK_VERSION}
+      ES_PORT: ${ES_PORT}
+      KIBANA_PORT: ${KIBANA_PORT}
     ulimits: 
       memlock:
         soft: -1 
@@ -22,26 +28,26 @@ services:
     cap_add: 
       - IPC_LOCK
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200'
+      - '9300:9300'
     networks:
       - elk-network
 
   logstash:
     container_name: logstash
-    image: docker.elastic.co/logstash/logstash-oss:${ELK_VERSION}
+    image: docker.elastic.co/logstash/logstash-oss:${STACK_VERSION}
     restart: unless-stopped
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: '-Xmx256m -Xms256m'
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD}
       ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
       ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
     volumes:
       - /home/vagrant/volumes/elk/logstash/conf.d:/etc/logstash/conf.d
     ports:
-      - "5000:5000"
-      - "5044:5044"
-      - "9600:9600"
+      - '5000:5000'
+      - '5044:5044'
+      - '9600:9600'
     networks:
       - elk-network
     depends_on:
@@ -49,18 +55,18 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
     restart: unless-stopped
     environment:
       SERVER_NAME: kibana
-      KIBANA_PWD: ${KIBANA_PWD}
-      ELASTICSEARCH_HOSTS: ${ELASTICSEARCH_HOSTS}
+      ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_USERNAME: ${KIBANA_USERNAME}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
       XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: ${XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY}
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD}
-      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD}
     ports:
-      - "5601:5601"
+      - '5601:5601'
     networks:
       - elk-network
     depends_on:

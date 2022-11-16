@@ -7,12 +7,17 @@ https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examp
 https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
 https://aravind.dev/elastic-data-stream/<br>
 https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
 
-```
+```yml
 > Vagrantfile
   elk.vm.provision 'shell', inline: 'dockerd --max-concurrent-downloads 2 &>/dev/null' ("Weak Network")
 
-> vagrant up elk
+- TOKEN -
+$ vagrant up elk
+$ vagrant ssh elk
+$ sudo docker exec -it elasticsearch /bin/bash
+$ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kibana
 
 > http://LOG_IP:3000
   admin
