@@ -5,13 +5,12 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     container_name: elasticsearch
     restart: unless-stopped
-    command: sh -c "mkdir -p /usr/share/elasticsearch/config/certs/"
+    command: 'mkdir -p /usr/share/elasticsearch/config/certs/'
     environment:
       discovery.type: single-node
       xpack.license.self_generated.type: basic
-      xpack.security.enabled: false
       xpack.monitoring.collection.enabled: true
-      #xpack.security.enabled: true
+      xpack.security.enabled: false
       #xpack.security.transport.ssl.enabled: true
       #xpack.security.transport.ssl.verification_mode: certificate 
       #xpack.security.transport.ssl.client_authentication: required
@@ -25,8 +24,7 @@ services:
       ELASTICSEARCH_PORT: ${ES_PORT}
       KIBANA_PORT: ${KIBANA_PORT}
     volumes:
-      - /home/vagrant/volumes/elk/logstash/conf.d:/etc/logstash/conf.d
-      - /home/vagrant/volumes/elk/elastic/certs:/usr/share/elasticsearch/config/certs/
+      - /home/vagrant/volumes/elk/elastic/certs:/usr/share/elasticsearch/data
     ulimits: 
       memlock:
         soft: -1 
