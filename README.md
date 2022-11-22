@@ -8,6 +8,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.htm
 https://aravind.dev/elastic-data-stream/<br>
 https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html
 
 ```yml
 > Vagrantfile
