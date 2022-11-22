@@ -35,6 +35,8 @@ GET _component_template/enterprise-logs-component-template
 GET _index_template/enterprise-logs
 GET enterprise-survey-000001
 GET entreprise-survey-*/_ilm/explain
+GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true
+GET _cat/indices/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&s=index
 
 GET _ilm/policy/logs-policy
 GET _component_template/logs-component-template
