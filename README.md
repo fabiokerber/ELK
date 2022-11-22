@@ -1,22 +1,5 @@
 # ELK
 
-**Links**<br>
-https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
-https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
-https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
-https://aravind.dev/elastic-data-stream/<br>
-https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
-https://www.elastic.co/guide/en/beats/filebeat/current/configuring-output.html#configuring-output<br>
-<br>
-https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
-https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
-https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
-https://github.com/elastic/elasticsearch/issues/32531<br>
-https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
-
 ```yml
 > Vagrantfile
   elk.vm.provision 'shell', inline: 'dockerd --max-concurrent-downloads 2 &>/dev/null' ("Weak Network")
