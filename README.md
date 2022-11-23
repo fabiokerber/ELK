@@ -10,7 +10,7 @@ https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-size
 https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
-<br>
+<br />
 https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
 https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
@@ -308,7 +308,7 @@ POST _security/role/<new_role>
   - **Name:** `new_index`
   - **Timestamp field:** @timestamp
 
-**Send Logs**
+## SEND LOGS
 ```bash
 #!/bin/bash
 for i in {1..25000}
@@ -322,10 +322,8 @@ $ chmod +x loop.sh
 $ bash loop.sh
 ```
 
-**Allow/Deny Logs - API**
-
-Example:
-```yml
+## Allow/Deny Logs - API ▶︎ `Dev Tools`<br>
+```json
 PUT /_cluster/settings
 {
   "persistent" : {
@@ -333,7 +331,7 @@ PUT /_cluster/settings
   }
 }
 ```
-```yml
+```json
 PUT /_cluster/settings
 {
   "persistent" : {
@@ -341,9 +339,7 @@ PUT /_cluster/settings
   }
 }
 ```
-
-Example Lab:<br>
-```yml
+```json
 PUT /_cluster/settings
 {
   "persistent" : {
@@ -352,38 +348,39 @@ PUT /_cluster/settings
   }
 }
 ```
+
 You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.<br>
-Allow rules take precedence over the deny rules.<br>
-```yml
+Allow rules take precedence over the deny rules<br>
+```json
 xpack.security.transport.filter.allow: "192.168.0.1"
 xpack.security.transport.filter.deny: "192.168.0.0/24"
 ```
 
-The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed.
-```yml
+The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed<br>
+```json
 xpack.security.transport.filter.allow: [ "192.168.0.1", "192.168.0.2", "192.168.0.3", "192.168.0.4" ]
 xpack.security.transport.filter.deny: _all
 ```
 
-IP filtering configuration also support *IPv6 addresses*.
-```yml
+IP filtering configuration also support *IPv6 addresses*<br>
+```json
 xpack.security.transport.filter.allow: "2001:0db8:1234::/48"
 xpack.security.transport.filter.deny: "1234:0db8:85a3:0000:0000:8a2e:0370:7334"
 ```
 
-You can also filter by hostnames when *DNS lookups* are available.
-```yml
+You can also filter by hostnames when *DNS lookups* are available<br>
+```json
 xpack.security.transport.filter.allow: localhost
 xpack.security.transport.filter.deny: '*.google.com'
 ```
 
-*Disabling IP filtering* can slightly improve performance under some conditions.<br>
+*Disabling IP filtering* can slightly improve performance under some conditions<br>
 To disable IP filtering entirely:
 ```yml
 xpack.security.transport.filter.enabled: false
 ```
 
-You can also disable IP filtering for the transport protocol but enable it for HTTP only.
+You can also disable IP filtering for the transport protocol but enable it for HTTP only<br>
 ```yml
 xpack.security.transport.filter.enabled: false
 xpack.security.http.filter.enabled: true
