@@ -61,8 +61,8 @@ DELETE _ilm/policy/logs-policy
 
 ## Spaces ▶︎ `Management > Spaces`<br>
 
-**Create space `new_space`**<br>
-[🔗Spaces](https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html)
+**Create space `new_space`[🔗Spaces](https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html)**<br>
+__Note__
 * **$$\textcolor{blue}{\text{+ Create space}}$$<p style='color:blue'>+ Create space</p>**
   - '''Name:''' <new_space>
   - '''Background color:''' <background_color>
