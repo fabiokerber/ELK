@@ -37,8 +37,8 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 > http://LOG_IP:9200
 ```
 
-**COMMANDS**
-```yml
+**API**
+```json
 GET _ilm/policy/enterprise-logs-policy
 GET _component_template/enterprise-logs-component-template
 GET _index_template/enterprise-logs
@@ -79,7 +79,7 @@ DELETE _ilm/policy/logs-policy
     - Index Pattern Management
 
 
-## User ^([Management > Dev Tools)]^<br>
+## User ▶︎ `Dev Tools`<br>
 ▶︎ `Dev Tools`
 
 **Create `new_user` with default role `run_as`**<br>
