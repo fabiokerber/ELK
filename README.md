@@ -1,12 +1,14 @@
 # ELK
 
 **Links**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html<br>
+https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
+<br />
 https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
 https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
 https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
 https://aravind.dev/elastic-data-stream/<br>
-https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
@@ -17,6 +19,10 @@ https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
 https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
 https://github.com/elastic/elasticsearch/issues/32531<br>
 https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
+<br />
+https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
+https://linuxhint.com/elasticsearch-shard-list/<br>
+https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
 
 ```yml
 > Vagrantfile
@@ -45,6 +51,8 @@ GET _index_template/enterprise-logs
 GET enterprise-survey-000001
 GET entreprise-survey-*/_ilm/explain
 GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true
+GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&s=prirep
+GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&format=json
 GET _cat/indices/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&s=index
 
 GET _ilm/policy/logs-policy
@@ -78,7 +86,6 @@ DELETE _ilm/policy/logs-policy
   - **Management**
     - Dev Tools
     - Index Pattern Management
-
 
 ## User ▶︎ `Dev Tools`<br>
 
@@ -384,4 +391,10 @@ You can also disable IP filtering for the transport protocol but enable it for H
 ```yml
 xpack.security.transport.filter.enabled: false
 xpack.security.http.filter.enabled: true
+```
+
+## filebeat.yml
+```bash
+$ ssh fabio@mgm-manager01.manager.bk.sapo.pt
+$ kubectl -n logging --context conteudos get cm filebeat-filebeat-daemonset-config -o yaml
 ```

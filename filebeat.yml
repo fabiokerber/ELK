@@ -1,0 +1,53 @@
+setup:
+    ilm.enabled: false
+    template.enabled: false
+    dashboards.enabled: false
+filebeat.autodiscover:
+  providers:
+    - type: kubernetes
+      node: ${NODE_NAME}
+      hints.enabled: true
+      hints.default_config:
+        enabled: false
+        type: container
+        paths:
+          - /var/log/containers/*${data.kubernetes.container.id}.log
+      templates:
+        - condition:
+            equals:
+              kubernetes.namespace: "ingress-nginx"
+          config:
+            - module: nginx
+              access:
+                enabled: false
+              error:
+                enabled: false
+              ingress_controller:
+                enabled: false
+                input:
+                  type: container
+                  paths:
+                    - /var/log/containers/*${data.kubernetes.container.id}.log
+                  multiline.pattern: '^[[:space:]]+(at)[[:space:]]+\b|^Exiting'
+                  multiline.negate: false
+                  multiline.match: after
+                  exclude_lines: ["^Verdadeiro.*|^Impr.*|^Descon.*|^Falso.*|^Piment.*"]
+output.elasticsearch:
+  host: '${NODE_NAME}'
+  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}'
+  username: "${FILEBEAT_USERNAME:filebeat_writer}"
+  password: "${FILEBEAT_PASSWORD:changeme}"
+  index: "filebeat-k8s-%{[kubernetes.namespace]}-%{[kubernetes.container.name]}"
+  # indices:
+  #   - index: "filebeat-k8s-%{[kubernetes.namespace]}-%{[kubernetes.container.name]}"
+  #     when:
+  #       or:
+  #         - contains.kubernetes.namespace: "sapo-conteudos-lifestylesapopt-prod"
+  #         - contains.kubernetes.namespace: "sapo-conteudos-magsapopt-prod"
+  #   - index: "filebeat-%{[agent.version]}-k8s-%{[kubernetes.namespace]:unkown}"
+  #     when:
+  #       or:
+  #         - not.contains.kubernetes.namespace: "sapo-conteudos-lifestylesapopt-prod"
+  #         - not.contains.kubernetes.namespace: "sapo-conteudos-magsapopt-prod"
+  protocol: "https"
+  ssl.verification_mode: "none"
