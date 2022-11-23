@@ -38,7 +38,7 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 ```
 
 **API**
-```json
+```yml
 GET _ilm/policy/enterprise-logs-policy
 GET _component_template/enterprise-logs-component-template
 GET _index_template/enterprise-logs
@@ -65,26 +65,24 @@ DELETE _ilm/policy/logs-policy
 - **+ Create space**
   - **Name:** `new_space`
   - **Background color:** `background_color`
-  - '''Analytics'''
+  - **Analytics**
     - Discover
     - Dashboard
     - Canvas
     - Maps
     - Machine Learning
     - Visualize Library
-  - '''Observability'''
+  - **Observability**
     - Logs
     - Metrics
-  - '''Management'''
+  - **Management**
     - Dev Tools
     - Index Pattern Management
 
 
 ## User ▶︎ `Dev Tools`<br>
 
-**Create `new_user` with default role `run_as`**<br>
-[🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)
-
+**Create `new_user` with default role `run_as`[🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
 ```json
 POST _security/user/<new_user>
 {
@@ -95,8 +93,8 @@ POST _security/user/<new_user>
 }
 ```
 
-'''*''' Add `new_user` to role `run_as` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
-{{{#!json
+**Add `new_user` to role `run_as` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
+```json
 POST _security/role/run_as
 {
   "cluster": [],
@@ -107,13 +105,12 @@ POST _security/role/run_as
     "version" : 1
   }
 }
-}}}
+```
 
+## Role ▶︎ `Dev Tools`<br>
 
-= Role ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
-
-'''*''' Create role `new_role`, including `new_space` and `new_user` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
-{{{#!json
+**Create role `new_role`, including `new_space` and `new_user` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
+```json
 POST _security/role/<new_role>
 {
   "cluster" : [ ],
@@ -156,10 +153,10 @@ POST _security/role/<new_role>
     "enabled" : true
     }
 }
-}}}
+```
 
-'''*''' Create `new_user` and set `new_role` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
-{{{#!json
+**Create `new_user` and set `new_role` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
+```json
 POST _security/user/<new_user>
 {
   "password" : "${openssl rand -hex 32}",
@@ -167,13 +164,12 @@ POST _security/user/<new_user>
   "full_name" : "<full_name>",
   "email" : "<email>"
 }
-}}}
+```
 
+## ILM ▶︎ `Dev Tools`<br>
 
-= ILM ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
-
-'''*''' Create `new_policy` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html Create or update lifecycle policy API])^
-{{{#!json
+**Create `new_policy` [🔗Create or update lifecycle policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html)**<br>
+```json
 POST _ilm/policy/<new_policy>
 {
     "policy": {
@@ -205,13 +201,12 @@ POST _ilm/policy/<new_policy>
       }
     }
 }
-}}}
+```
 
+## Index ▶︎ `Dev Tools`<br>
 
-= Index ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
-
-'''*''' Create `new_component_template` ^([https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-component-template.html Create or update component template API])^
-{{{#!json
+**Create `new_component_template` [🔗Create or update component template API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-component-template.html)**<br>
+```json
 PUT _component_template/<new_component_template>
 {
   "template": {
@@ -231,10 +226,10 @@ PUT _component_template/<new_component_template>
     }
   }
 }
-}}}
+```
 
-'''*''' Create `new_index_template` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html Create or update index template API])^
-{{{#!json
+**Create `new_index_template` [🔗Create or update index template API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html)**<br>
+```json
 PUT _index_template/<new_index_template>
 {
   "index_patterns": [
@@ -244,10 +239,10 @@ PUT _index_template/<new_index_template>
     "<new_component_template>"
   ]
 }
-}}}
+```
 
-'''*''' Create `new_index` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/aliases.html#add-alias-at-creation Add an alias at index creation])^
-{{{#!json
+**Create `new_index` [🔗Add an alias at index creation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/aliases.html#add-alias-at-creation)**<br>
+```json
 PUT <new_index>-000001
 {
     "aliases": {
@@ -256,10 +251,10 @@ PUT <new_index>-000001
         }
     }
 }
-}}}
+```
 
-'''*''' Allow access `new_index` to all users belong to `new_role` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
-{{{#!json
+**Allow access `new_index` to all users belong to `new_role` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
+```json
 POST _security/role/<new_role>
 {
   "cluster" : [ ],
@@ -304,15 +299,14 @@ POST _security/role/<new_role>
     "enabled" : true
     }
 }
-}}}
+```
 
-= Index Pattern ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+## Index Pattern ▶︎ `Management > Stack Management > Kibana > Index Patterns`<br>
 
-'''*''' Create `new_index_pattern` after receiving the first log in `new_index` ^([https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern Create an index pattern])^
-* '''Go to Space `new_space` > Management > Stack Management > Kibana > Index Patterns'''
-  - '''[[span(style=color:  #0032ff, + Create index pattern)]]'''
-    - '''Name:''' <new_index>*
-    - '''Timestamp field:''' @timestamp
+**Create `new_index_pattern` after receiving the first log in `new_index` [🔗Create an index pattern](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern)**<br>
+- **+ Create index pattern**
+  - **Name:** `new_index`
+  - **Timestamp field:** @timestamp
 
 **Send Logs**
 ```bash
