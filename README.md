@@ -82,7 +82,7 @@ DELETE _ilm/policy/logs-policy
 = User ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
 
 '''*''' Create `new_user` with default role `run_as` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
-```yml
+```json
 POST _security/user/<new_user>
 {
   "password" : "${openssl rand -hex 32}",
