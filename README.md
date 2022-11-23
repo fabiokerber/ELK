@@ -79,9 +79,9 @@ DELETE _ilm/policy/logs-policy
     - Index Pattern Management
 
 
-= User ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+# User ^([Management > Dev Tools)]^ =
 
-'''*''' Create `new_user` with default role `run_as` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
+## Create `new_user` with default role `run_as` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
 ```json
 POST _security/user/<new_user>
 {
