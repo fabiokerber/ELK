@@ -57,7 +57,7 @@ DELETE _component_template/logs-component-template
 DELETE _ilm/policy/logs-policy
 ```
 
-**TEMPLATE**
+# TEMPLATE
 = Spaces ^([https://elk.bk.sapo.pt/app/management/kibana/spaces Management > Spaces)]^
 
 '''*''' Create space `new_space` ^([https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html Spaces])^
@@ -79,10 +79,10 @@ DELETE _ilm/policy/logs-policy
     - Index Pattern Management
 
 
-# User ^([Management > Dev Tools)]^<br>
+## User ^([Management > Dev Tools)]^<br>
 ▶︎ `Dev Tools`
 
-## Create `new_user` with default role `run_as`<br>
+**Create `new_user` with default role `run_as`**<br>
 [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)
 
 ```json
