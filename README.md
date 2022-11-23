@@ -351,25 +351,25 @@ PUT /_cluster/settings
 
 You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.<br>
 Allow rules take precedence over the deny rules<br>
-```json
+```yml
 xpack.security.transport.filter.allow: "192.168.0.1"
 xpack.security.transport.filter.deny: "192.168.0.0/24"
 ```
 
 The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed<br>
-```json
+```yml
 xpack.security.transport.filter.allow: [ "192.168.0.1", "192.168.0.2", "192.168.0.3", "192.168.0.4" ]
 xpack.security.transport.filter.deny: _all
 ```
 
 IP filtering configuration also support *IPv6 addresses*<br>
-```json
+```yml
 xpack.security.transport.filter.allow: "2001:0db8:1234::/48"
 xpack.security.transport.filter.deny: "1234:0db8:85a3:0000:0000:8a2e:0370:7334"
 ```
 
 You can also filter by hostnames when *DNS lookups* are available<br>
-```json
+```yml
 xpack.security.transport.filter.allow: localhost
 xpack.security.transport.filter.deny: '*.google.com'
 ```
