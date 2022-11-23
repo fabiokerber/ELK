@@ -79,9 +79,11 @@ DELETE _ilm/policy/logs-policy
     - Index Pattern Management
 
 
-# User ^([Management > Dev Tools)]^ =
+# User ^([Management > Dev Tools)]^<br>
+▶︎ `Dev Tools`
 
-## Create `new_user` with default role `run_as` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)
+## Create `new_user` with default role `run_as`<br>
+[🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)
 
 ```json
 POST _security/user/<new_user>
