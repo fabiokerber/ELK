@@ -57,9 +57,121 @@ DELETE _component_template/logs-component-template
 DELETE _ilm/policy/logs-policy
 ```
 
-**POLICY**
+**TEMPLATE**
+= Spaces ^([https://elk.bk.sapo.pt/app/management/kibana/spaces Management > Spaces)]^
+
+'''*''' Create space `new_space` ^([https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html Spaces])^
+* '''[[span(style=color:  #0032ff, + Create space)]]'''
+  - '''Name:''' <new_space>
+  - '''Background color:''' <background_color>
+  - '''Analytics'''
+    - Discover
+    - Dashboard
+    - Canvas
+    - Maps
+    - Machine Learning
+    - Visualize Library
+  - '''Observability'''
+    - Logs
+    - Metrics
+  - '''Management'''
+    - Dev Tools
+    - Index Pattern Management
+
+
+= User ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+
+'''*''' Create `new_user` with default role `run_as` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
 ```yml
-PUT /_ilm/policy/enterprise-logs-policy
+POST _security/user/<new_user>
+{
+  "password" : "${openssl rand -hex 32}",
+  "roles" : ["run_as"],
+  "full_name" : "<full_name>",
+  "email" : "<email>"
+}
+```
+
+'''*''' Add `new_user` to role `run_as` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
+{{{#!json
+POST _security/role/run_as
+{
+  "cluster": [],
+  "indices": [],
+  "run_as": [ 
+    "<new_user>"],
+  "metadata" : {
+    "version" : 1
+  }
+}
+}}}
+
+
+= Role ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+
+'''*''' Create role `new_role`, including `new_space` and `new_user` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
+{{{#!json
+POST _security/role/<new_role>
+{
+  "cluster" : [ ],
+  "indices" : [
+    {
+      "names" : [ ],
+      "privileges" : [
+        "all"
+      ],
+      "allow_restricted_indices" : false
+    }
+  ],
+  "applications" : [
+    {
+      "application" : "kibana-.kibana",
+      "privileges" : [
+          "feature_discover.all",
+          "feature_dashboard.all",
+          "feature_canvas.all",
+          "feature_maps.all",
+          "feature_ml.all",
+          "feature_visualize.all",
+          "feature_logs.all",
+          "feature_dev_tools.all",
+          "feature_indexPatterns.all",
+          "feature_infrastructure.all"
+      ],
+      "resources" : [
+        "<new_space>"
+      ]
+    }
+  ],
+  "run_as" : [
+    "<new_user>"
+  ],
+  "metadata" : {
+    "version" : 1
+  },
+  "transient_metadata" : {
+    "enabled" : true
+    }
+}
+}}}
+
+'''*''' Create `new_user` and set `new_role` ^([https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html Configure security in Kibana API])^
+{{{#!json
+POST _security/user/<new_user>
+{
+  "password" : "${openssl rand -hex 32}",
+  "roles" : ["run_as","<new_role>"],
+  "full_name" : "<full_name>",
+  "email" : "<email>"
+}
+}}}
+
+
+= ILM ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+
+'''*''' Create `new_policy` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html Create or update lifecycle policy API])^
+{{{#!json
+POST _ilm/policy/<new_policy>
 {
     "policy": {
       "phases" : {
@@ -67,26 +179,20 @@ PUT /_ilm/policy/enterprise-logs-policy
           "min_age" : "0ms",
           "actions" : {
             "rollover" : {
-              "max_primary_shard_size" : "500kb"
+              "max_age" : "7d"
             }
           }
         },
         "warm" : {
-          "min_age" : "5m",
+          "min_age" : "1d",
           "actions" : {
             "shrink" : {
               "number_of_shards" : 1
             }
           }
         },
-        "cold" : {
-          "min_age" : "10m",
-          "actions" : { 
-            "freeze": { }
-          }
-        },
         "delete" : {
-          "min_age" : "15m",
+          "min_age" : "2d",
           "actions" : {
             "delete" : {
               "delete_searchable_snapshot" : true
@@ -96,92 +202,114 @@ PUT /_ilm/policy/enterprise-logs-policy
       }
     }
 }
-```
+}}}
 
-**LAB 1 - INDEX**
-```yml
-PUT /_component_template/server-logs-component-template
+
+= Index ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+
+'''*''' Create `new_component_template` ^([https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-component-template.html Create or update component template API])^
+{{{#!json
+PUT _component_template/<new_component_template>
 {
   "template": {
     "settings": {
-      "number_of_shards": 1,
-      "number_of_replicas": 0,
-      "index.lifecycle.name": "enterprise-logs-policy",
-      "index.lifecycle.rollover_alias": "server-logs"
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "index.lifecycle.name": "<new_policy>",
+      "index.lifecycle.rollover_alias": "<new_alias>"
+    },
+    "mappings": {
+      "properties": {
+        "created_at": {
+          "type": "date",
+          "format": "EEE dd MMM yyyy HH:mm:ss Z"
+        }
+      }
     }
   }
 }
+}}}
 
-PUT /_index_template/server-logs
+'''*''' Create `new_index_template` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html Create or update index template API])^
+{{{#!json
+PUT _index_template/<new_index_template>
 {
   "index_patterns": [
-    "server-logs-*"
+    "<new_index>*"
   ],
   "composed_of": [
-    "server-logs-component-template"
-  ],
-  "template": {
-    "settings": {
-      "index.lifecycle.name": "enterprise-logs-policy"
-    }
-  }
+    "<new_component_template>"
+  ]
 }
+}}}
 
-PUT /server-logs-000001
+'''*''' Create `new_index` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/aliases.html#add-alias-at-creation Add an alias at index creation])^
+{{{#!json
+PUT <new_index>-000001
 {
     "aliases": {
-        "server-logs": {
+        "<new_alias>": {
             "is_write_index": true
         }
     }
 }
- ```
+}}}
 
-**CREATE INDEX PATTERN**
-Name: server-logs
-Index pattern: server-logs-*
-
-```yml
-PUT /_component_template/network-logs-component-template
+'''*''' Allow access `new_index` to all users belong to `new_role` ^([https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html Create or update roles API])^
+{{{#!json
+POST _security/role/<new_role>
 {
-  "template": {
-    "settings": {
-      "number_of_shards": 1,
-      "number_of_replicas": 0,
-      "index.lifecycle.name": "enterprise-logs-policy",
-      "index.lifecycle.rollover_alias": "network-logs"
+  "cluster" : [ ],
+  "indices" : [
+    {
+      "names" : [
+        "<new_index>*"
+      ],
+      "privileges" : [
+        "all"
+      ],
+      "allow_restricted_indices" : false
     }
-  }
-}
-
-PUT /_index_template/network-logs
-{
-  "index_patterns": [
-    "network-logs-*"
   ],
-  "composed_of": [
-    "network-logs-component-template"
+  "applications" : [
+    {
+      "application" : "kibana-.kibana",
+      "privileges" : [
+          "feature_discover.all",
+          "feature_dashboard.all",
+          "feature_canvas.all",
+          "feature_maps.all",
+          "feature_ml.all",
+          "feature_visualize.all",
+          "feature_logs.all",
+          "feature_dev_tools.all",
+          "feature_indexPatterns.all",
+          "feature_infrastructure.all"
+      ],
+      "resources" : [
+        "<new_space>"
+      ]
+    }
   ],
-  "template": {
-    "settings": {
-      "index.lifecycle.name": "enterprise-logs-policy"
-    }
-  }
-}
-
-PUT /network-logs-000001
-{
-    "aliases": {
-        "network-logs": {
-            "is_write_index": true
-        }
+  "run_as" : [
+    "<new_user>"
+  ],
+  "metadata" : {
+    "version" : 1
+  },
+  "transient_metadata" : {
+    "enabled" : true
     }
 }
-```
+}}}
 
-**CREATE INDEX PATTERN**
-Name: network-logs
-Index pattern: network-logs-*
+= Index Pattern ^([https://elk.bk.sapo.pt/s/default/app/dev_tools Management > Dev Tools)]^ =
+
+'''*''' Create `new_index_pattern` after receiving the first log in `new_index` ^([https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern Create an index pattern])^
+* '''Go to Space `new_space` > Management > Stack Management > Kibana > Index Patterns'''
+  - '''[[span(style=color:  #0032ff, + Create index pattern)]]'''
+    - '''Name:''' <new_index>*
+    - '''Timestamp field:''' @timestamp
 
 **Send Logs**
 ```bash
