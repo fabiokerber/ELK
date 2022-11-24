@@ -23,6 +23,7 @@ https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
 https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
 https://linuxhint.com/elasticsearch-shard-list/<br>
 https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
+https://www.alibabacloud.com/blog/597074<br>
 
 ```yml
 > Vagrantfile
