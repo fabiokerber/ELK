@@ -329,6 +329,20 @@ done
 $ chmod +x loop.sh
 $ bash loop.sh
 ```
+```bash
+$ ssh fabio@mgm-manager01.manager.bk.sapo.pt
+$ touch loopsapo.sh && chmod +x loopsapo.sh && vi loopsapo.sh
+
+#!/bin/bash
+for i in {1..2500000}
+do
+        NOW=$(date '+%b %d, %Y @ %H:%M:%S.%3N')
+        curl -u "elastic:vK39PY57MW46nf8V" -H "Content-Type: application/json" -X POST "https://es-logs.bk.sapo.pt/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "test"}'
+        echo ""
+done
+
+$ bash loopsapo.sh
+```
 
 ## Allow/Deny Logs - API ▶︎ `Dev Tools`<br>
 ```json
