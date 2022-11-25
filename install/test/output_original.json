@@ -1,90 +1,97 @@
 {
-    "@timestamp": "2022-11-25T14:54:14.322Z",
-    "stream": "stdout",
-    "message": "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]",
+    "@timestamp": "2022-11-25T17:06:07.734Z",
     "kubernetes": {
       "container": {
         "name": "fe"
       },
       "node": {
-        "uid": "877ee60a-081e-477c-81a1-8b16f8ec334f",
+        "uid": "0c37581b-65dd-4689-ba72-875c70e4d171",
         "labels": {
-          "beta_kubernetes_io/os": "linux",
           "kubernetes_io/arch": "amd64",
-          "kubernetes_io/hostname": "sgt-docker12",
+          "kubernetes_io/hostname": "sgt-docker08",
           "kubernetes_io/os": "linux",
           "node-role_kubernetes_io/worker": "true",
-          "beta_kubernetes_io/arch": "amd64"
+          "beta_kubernetes_io/arch": "amd64",
+          "beta_kubernetes_io/os": "linux"
         },
-        "hostname": "sgt-docker12",
-        "name": "sgt-docker12"
+        "hostname": "sgt-docker08",
+        "name": "sgt-docker08"
       },
-      "namespace_uid": "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2",
       "namespace_labels": {
         "cattle_io/creator": "norman",
         "field_cattle_io/projectId": "p-l82tc"
       },
+      "namespace_uid": "72054719-a829-4639-8c10-9e43235baba9",
       "pod": {
-        "name": "fe-6d595bdf7f-pbmrw",
-        "uid": "56aa65ae-47c9-4022-a238-c97822ac8eb4",
-        "ip": "10.42.4.226"
+        "ip": "10.42.8.47",
+        "name": "fe-6fc48c96df-hh8v9",
+        "uid": "1d6575d0-794a-4423-9a67-ecfc2b45bdfa"
       },
-      "namespace": "sapo-conteudos-lifestylesapopt-prod",
+      "namespace": "sapo-conteudos-desportosapopt-prod",
       "replicaset": {
-        "name": "fe-6d595bdf7f"
+        "name": "fe-6fc48c96df"
       },
       "labels": {
-        "app_kubernetes_io/instance": "sapo-conteudos-lifestylesapopt-prod",
+        "pod-template-hash": "6fc48c96df",
+        "app_kubernetes_io/instance": "sapo-conteudos-desportosapopt-prod",
         "app_kubernetes_io/managed-by": "Tiller",
         "app_kubernetes_io/name": "sapo-conteudos",
         "app_kubernetes_io/version": "0.0.1",
         "docker_sapo_pt/environment": "production",
         "docker_sapo_pt/name": "fe",
-        "helm_sh/chart": "sapo-conteudos-0.0.11",
-        "pod-template-hash": "6d595bdf7f"
+        "helm_sh/chart": "sapo-conteudos-0.0.11"
       }
     },
+    "container": {
+      "runtime": "docker",
+      "image": {
+        "name": "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
+      },
+      "id": "16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94"
+    },
+    "ecs": {
+      "version": "1.12.0"
+    },
     "agent": {
-      "ephemeral_id": "661dbcf4-e0cd-4f29-a36b-acf735e050bd",
-      "id": "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21",
-      "name": "filebeat-filebeat-d9dld",
+      "ephemeral_id": "72cecd15-11bb-4f36-a928-0ee281e729a9",
+      "id": "a4f04210-0240-43e7-91fa-73365536cd71",
+      "name": "filebeat-filebeat-jgn5w",
       "type": "filebeat",
       "version": "7.16.1",
-      "hostname": "filebeat-filebeat-d9dld"
+      "hostname": "filebeat-filebeat-jgn5w"
     },
+    "message": "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.sapo.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12",
+    "stream": "stdout",
     "host": {
-      "name": "filebeat-filebeat-d9dld"
+      "name": "filebeat-filebeat-jgn5w"
     },
     "log": {
-      "offset": 199498940,
+      "offset": 1243372332,
       "file": {
-        "path": "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+        "path": "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
       }
     },
     "input": {
       "type": "container"
-    },
-    "ecs": {
-      "version": "1.12.0"
     },
     "fields": {
     "agent.version.keyword": [
       "7.16.1"
     ],
     "kubernetes.node.uid": [
-      "877ee60a-081e-477c-81a1-8b16f8ec334f"
+      "0c37581b-65dd-4689-ba72-875c70e4d171"
     ],
     "kubernetes.labels.app_kubernetes_io/version.keyword": [
       "0.0.1"
     ],
     "kubernetes.namespace_uid.keyword": [
-      "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2"
+      "72054719-a829-4639-8c10-9e43235baba9"
     ],
     "kubernetes.namespace_uid": [
-      "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2"
+      "72054719-a829-4639-8c10-9e43235baba9"
     ],
     "host.name.keyword": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.namespace_labels.cattle_io/creator.keyword": [
       "norman"
@@ -99,13 +106,13 @@
       "fe"
     ],
     "container.id": [
-      "a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087"
+      "16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94"
     ],
     "agent.hostname.keyword": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.labels.pod-template-hash": [
-      "6d595bdf7f"
+      "6fc48c96df"
     ],
     "kubernetes.node.labels.kubernetes_io/os.keyword": [
       "linux"
@@ -114,7 +121,7 @@
       "1.12.0"
     ],
     "container.image.name": [
-      "harbor.bk.sapo.pt/conteudos/production/lifestylesapopt-fe:20221124_16f7ab817"
+      "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
     ],
     "kubernetes.container.name.keyword": [
       "fe"
@@ -123,19 +130,19 @@
       "linux"
     ],
     "kubernetes.pod.name.keyword": [
-      "fe-6d595bdf7f-pbmrw"
+      "fe-6fc48c96df-hh8v9"
     ],
     "kubernetes.namespace": [
-      "sapo-conteudos-lifestylesapopt-prod"
+      "sapo-conteudos-desportosapopt-prod"
     ],
     "agent.name": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.node.labels.node-role_kubernetes_io/worker.keyword": [
       "true"
     ],
     "host.name": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.labels.helm_sh/chart.keyword": [
       "sapo-conteudos-0.0.11"
@@ -144,37 +151,34 @@
       "sapo-conteudos"
     ],
     "kubernetes.labels.app_kubernetes_io/instance": [
-      "sapo-conteudos-lifestylesapopt-prod"
+      "sapo-conteudos-desportosapopt-prod"
     ],
     "kubernetes.node.labels.kubernetes_io/hostname.keyword": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "agent.id.keyword": [
-      "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21"
+      "a4f04210-0240-43e7-91fa-73365536cd71"
     ],
     "kubernetes.node.uid.keyword": [
-      "877ee60a-081e-477c-81a1-8b16f8ec334f"
+      "0c37581b-65dd-4689-ba72-875c70e4d171"
     ],
     "input.type": [
       "container"
     ],
     "log.offset": [
-      199498940
+      1243372332
     ],
     "agent.hostname": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "container.runtime": [
       "docker"
     ],
     "agent.id": [
-      "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21"
+      "a4f04210-0240-43e7-91fa-73365536cd71"
     ],
     "ecs.version": [
       "1.12.0"
-    ],
-    "message.keyword": [
-      "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]"
     ],
     "kubernetes.labels.helm_sh/chart": [
       "sapo-conteudos-0.0.11"
@@ -183,10 +187,10 @@
       "7.16.1"
     ],
     "kubernetes.namespace.keyword": [
-      "sapo-conteudos-lifestylesapopt-prod"
+      "sapo-conteudos-desportosapopt-prod"
     ],
     "kubernetes.node.name": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "stream.keyword": [
       "stdout"
@@ -198,19 +202,19 @@
       "Tiller"
     ],
     "kubernetes.node.hostname": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "kubernetes.labels.docker_sapo_pt/name": [
       "fe"
     ],
     "kubernetes.node.name.keyword": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "kubernetes.pod.uid": [
-      "56aa65ae-47c9-4022-a238-c97822ac8eb4"
+      "1d6575d0-794a-4423-9a67-ecfc2b45bdfa"
     ],
     "kubernetes.node.hostname.keyword": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "kubernetes.labels.docker_sapo_pt/environment": [
       "production"
@@ -231,16 +235,16 @@
       "amd64"
     ],
     "kubernetes.pod.name": [
-      "fe-6d595bdf7f-pbmrw"
+      "fe-6fc48c96df-hh8v9"
     ],
     "container.image.name.keyword": [
-      "harbor.bk.sapo.pt/conteudos/production/lifestylesapopt-fe:20221124_16f7ab817"
+      "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
     ],
     "kubernetes.labels.app_kubernetes_io/version": [
       "0.0.1"
     ],
     "log.file.path.keyword": [
-      "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+      "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
     ],
     "kubernetes.node.labels.node-role_kubernetes_io/worker": [
       "true"
@@ -249,46 +253,46 @@
       "filebeat"
     ],
     "kubernetes.pod.ip": [
-      "10.42.4.226"
+      "10.42.8.47"
     ],
     "agent.ephemeral_id.keyword": [
-      "661dbcf4-e0cd-4f29-a36b-acf735e050bd"
+      "72cecd15-11bb-4f36-a928-0ee281e729a9"
     ],
     "kubernetes.container.name": [
       "fe"
     ],
     "kubernetes.labels.pod-template-hash.keyword": [
-      "6d595bdf7f"
+      "6fc48c96df"
     ],
     "agent.name.keyword": [
-      "filebeat-filebeat-d9dld"
+      "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.node.labels.beta_kubernetes_io/arch.keyword": [
       "amd64"
     ],
     "kubernetes.replicaset.name": [
-      "fe-6d595bdf7f"
+      "fe-6fc48c96df"
     ],
     "kubernetes.labels.app_kubernetes_io/instance.keyword": [
-      "sapo-conteudos-lifestylesapopt-prod"
+      "sapo-conteudos-desportosapopt-prod"
     ],
     "message": [
-      "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]"
+      "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.sapo.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12"
     ],
     "kubernetes.node.labels.kubernetes_io/hostname": [
-      "sgt-docker12"
+      "sgt-docker08"
     ],
     "kubernetes.node.labels.beta_kubernetes_io/arch": [
       "amd64"
     ],
     "kubernetes.pod.uid.keyword": [
-      "56aa65ae-47c9-4022-a238-c97822ac8eb4"
+      "1d6575d0-794a-4423-9a67-ecfc2b45bdfa"
     ],
     "@timestamp": [
-      "2022-11-25T14:54:14.322Z"
+      "2022-11-25T17:06:07.734Z"
     ],
     "kubernetes.replicaset.name.keyword": [
-      "fe-6d595bdf7f"
+      "fe-6fc48c96df"
     ],
     "container.runtime.keyword": [
       "docker"
@@ -300,25 +304,25 @@
       "Tiller"
     ],
     "log.file.path": [
-      "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+      "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
     ],
     "kubernetes.namespace_labels.field_cattle_io/projectId": [
       "p-l82tc"
     ],
     "agent.ephemeral_id": [
-      "661dbcf4-e0cd-4f29-a36b-acf735e050bd"
+      "72cecd15-11bb-4f36-a928-0ee281e729a9"
     ],
     "kubernetes.node.labels.kubernetes_io/arch": [
       "amd64"
     ],
     "container.id.keyword": [
-      "a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087"
+      "16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94"
     ],
     "kubernetes.node.labels.beta_kubernetes_io/os.keyword": [
       "linux"
     ],
     "kubernetes.pod.ip.keyword": [
-      "10.42.4.226"
+      "10.42.8.47"
     ]
   }
 }
