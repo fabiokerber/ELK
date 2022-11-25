@@ -4,7 +4,7 @@ Test: Elastic v7.16.1
     1 Replica 
   Result: 
     Docs: ~ 13000
-    Primary Shard Size: ~ 30mb
+    Primary Shard Size: ~ 17mb
 
 GET /_ilm/policy/test-server-logs-policy
 GET /_ilm/policy/test-network-logs-policy
@@ -26,7 +26,7 @@ PUT /_ilm/policy/test-server-logs-policy
           "min_age" : "0ms",
           "actions" : {
             "rollover" : {
-              "max_primary_shard_size" : "20mb"
+              "max_primary_shard_size" : "10mb"
             }
           }
         },
