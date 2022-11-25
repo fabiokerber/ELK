@@ -39,11 +39,11 @@ PUT /_ilm/policy/test-server-logs-policy
           }
         },
         "cold" : {
-          "min_age" : "1h",
+          "min_age" : "2h",
           "actions" : { }
         },
         "delete" : {
-          "min_age" : "2h",
+          "min_age" : "8h",
           "actions" : {
             "delete" : {
               "delete_searchable_snapshot" : true
@@ -116,11 +116,11 @@ PUT /_ilm/policy/test-network-logs-policy
           }
         },
         "cold" : {
-          "min_age" : "1h",
+          "min_age" : "2h",
           "actions" : { }
         },
         "delete" : {
-          "min_age" : "2h",
+          "min_age" : "8h",
           "actions" : {
             "delete" : {
               "delete_searchable_snapshot" : true
