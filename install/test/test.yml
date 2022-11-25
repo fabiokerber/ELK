@@ -1,0 +1,172 @@
+Test: Elastic v7.16.1
+  Indexes: 
+    3 Shards
+    1 Replica 
+  Result: 
+    Docs: ~ 13000
+    Primary Shard Size: ~ 30mb
+
+GET /_ilm/policy/test-server-logs-policy
+GET /_ilm/policy/test-network-logs-policy
+	
+GET _cat/indices/test-server-logs-000001?v=true&s=index
+GET _cat/shards/test-server-logs-000001?v=true&s=prirep
+
+DELETE test-server-logs-000005
+DELETE /_index_template/test-*
+DELETE /_component_template/test-*
+DELETE /_ilm/policy/test-*
+############################################# #############################################
+
+PUT /_ilm/policy/test-server-logs-policy
+{
+    "policy": {
+      "phases" : {
+        "hot" : {
+          "min_age" : "0ms",
+          "actions" : {
+            "rollover" : {
+              "max_primary_shard_size" : "20mb"
+            }
+          }
+        },
+        "warm" : {
+          "min_age" : "30m",
+          "actions" : {
+            "shrink" : {
+              "number_of_shards" : 1
+            }
+          }
+        },
+        "cold" : {
+          "min_age" : "1h",
+          "actions" : { }
+        },
+        "delete" : {
+          "min_age" : "2h",
+          "actions" : {
+            "delete" : {
+              "delete_searchable_snapshot" : true
+            }
+          }
+        }
+      }
+    }
+}
+
+PUT /_component_template/test-server-logs-component-template
+{
+  "template": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "index.lifecycle.name": "test-server-logs-policy",
+      "index.lifecycle.rollover_alias": "test-server-logs"
+    },
+    "mappings": {
+      "properties": {
+        "created_at": {
+          "type": "date",
+          "format": "EEE dd MMM yyyy HH:mm:ss Z"
+        }
+      }
+    }
+  }
+}
+
+PUT /_index_template/test-server-logs-index-template
+{
+  "index_patterns": [
+    "test-server-logs-*"
+  ],
+  "composed_of": [
+    "test-server-logs-component-template"
+  ]
+}
+
+PUT /test-server-logs-000001
+{
+    "aliases": {
+        "test-server-logs": {
+            "is_write_index": true
+        }
+    }
+}
+
+############################################# #############################################
+
+PUT /_ilm/policy/test-network-logs-policy
+{
+    "policy": {
+      "phases" : {
+        "hot" : {
+          "min_age" : "0ms",
+          "actions" : {
+            "rollover" : {
+              "max_docs" : 8000
+            }
+          }
+        },
+        "warm" : {
+          "min_age" : "30m",
+          "actions" : {
+            "shrink" : {
+              "number_of_shards" : 1
+            }
+          }
+        },
+        "cold" : {
+          "min_age" : "1h",
+          "actions" : { }
+        },
+        "delete" : {
+          "min_age" : "2h",
+          "actions" : {
+            "delete" : {
+              "delete_searchable_snapshot" : true
+            }
+          }
+        }
+      }
+    }
+}
+
+PUT /_component_template/test-network-logs-component-template
+{
+  "template": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "index.lifecycle.name": "test-network-logs-policy",
+      "index.lifecycle.rollover_alias": "test-network-logs"
+    }
+  }
+}
+
+PUT /_index_template/test-network-logs-index-template
+{
+  "index_patterns": [
+    "test-network-logs-*"
+  ],
+  "composed_of": [
+    "test-network-logs-component-template"
+  ]
+}
+
+PUT /test-network-logs-000001
+{
+    "aliases": {
+        "test-network-logs": {
+            "is_write_index": true
+        }
+    }
+}
+
+############################################# #############################################
+
+$ ssh fabio@mgm-manager01.manager.bk.sapo.pt
+$ touch loopsapo_{server,network}.sh && chmod +x vloopsapo_{server,network}.sh 
+$ vi loopsapo_server.sh
+$ vi loopsapo_network.sh
+$ bash loopsapo_server.sh
+$ bash loopsapo_network.sh
