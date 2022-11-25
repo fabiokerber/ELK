@@ -1,0 +1,324 @@
+{
+    "@timestamp": "2022-11-25T14:54:14.322Z",
+    "stream": "stdout",
+    "message": "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]",
+    "kubernetes": {
+      "container": {
+        "name": "fe"
+      },
+      "node": {
+        "uid": "877ee60a-081e-477c-81a1-8b16f8ec334f",
+        "labels": {
+          "beta_kubernetes_io/os": "linux",
+          "kubernetes_io/arch": "amd64",
+          "kubernetes_io/hostname": "sgt-docker12",
+          "kubernetes_io/os": "linux",
+          "node-role_kubernetes_io/worker": "true",
+          "beta_kubernetes_io/arch": "amd64"
+        },
+        "hostname": "sgt-docker12",
+        "name": "sgt-docker12"
+      },
+      "namespace_uid": "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2",
+      "namespace_labels": {
+        "cattle_io/creator": "norman",
+        "field_cattle_io/projectId": "p-l82tc"
+      },
+      "pod": {
+        "name": "fe-6d595bdf7f-pbmrw",
+        "uid": "56aa65ae-47c9-4022-a238-c97822ac8eb4",
+        "ip": "10.42.4.226"
+      },
+      "namespace": "sapo-conteudos-lifestylesapopt-prod",
+      "replicaset": {
+        "name": "fe-6d595bdf7f"
+      },
+      "labels": {
+        "app_kubernetes_io/instance": "sapo-conteudos-lifestylesapopt-prod",
+        "app_kubernetes_io/managed-by": "Tiller",
+        "app_kubernetes_io/name": "sapo-conteudos",
+        "app_kubernetes_io/version": "0.0.1",
+        "docker_sapo_pt/environment": "production",
+        "docker_sapo_pt/name": "fe",
+        "helm_sh/chart": "sapo-conteudos-0.0.11",
+        "pod-template-hash": "6d595bdf7f"
+      }
+    },
+    "agent": {
+      "ephemeral_id": "661dbcf4-e0cd-4f29-a36b-acf735e050bd",
+      "id": "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21",
+      "name": "filebeat-filebeat-d9dld",
+      "type": "filebeat",
+      "version": "7.16.1",
+      "hostname": "filebeat-filebeat-d9dld"
+    },
+    "host": {
+      "name": "filebeat-filebeat-d9dld"
+    },
+    "log": {
+      "offset": 199498940,
+      "file": {
+        "path": "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+      }
+    },
+    "input": {
+      "type": "container"
+    },
+    "ecs": {
+      "version": "1.12.0"
+    },
+    "fields": {
+    "agent.version.keyword": [
+      "7.16.1"
+    ],
+    "kubernetes.node.uid": [
+      "877ee60a-081e-477c-81a1-8b16f8ec334f"
+    ],
+    "kubernetes.labels.app_kubernetes_io/version.keyword": [
+      "0.0.1"
+    ],
+    "kubernetes.namespace_uid.keyword": [
+      "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2"
+    ],
+    "kubernetes.namespace_uid": [
+      "a989fbfa-4b6c-4162-aa3d-aead2eba6dc2"
+    ],
+    "host.name.keyword": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "kubernetes.namespace_labels.cattle_io/creator.keyword": [
+      "norman"
+    ],
+    "kubernetes.node.labels.kubernetes_io/os": [
+      "linux"
+    ],
+    "kubernetes.labels.docker_sapo_pt/environment.keyword": [
+      "production"
+    ],
+    "kubernetes.labels.docker_sapo_pt/name.keyword": [
+      "fe"
+    ],
+    "container.id": [
+      "a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087"
+    ],
+    "agent.hostname.keyword": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "kubernetes.labels.pod-template-hash": [
+      "6d595bdf7f"
+    ],
+    "kubernetes.node.labels.kubernetes_io/os.keyword": [
+      "linux"
+    ],
+    "ecs.version.keyword": [
+      "1.12.0"
+    ],
+    "container.image.name": [
+      "harbor.bk.sapo.pt/conteudos/production/lifestylesapopt-fe:20221124_16f7ab817"
+    ],
+    "kubernetes.container.name.keyword": [
+      "fe"
+    ],
+    "kubernetes.node.labels.beta_kubernetes_io/os": [
+      "linux"
+    ],
+    "kubernetes.pod.name.keyword": [
+      "fe-6d595bdf7f-pbmrw"
+    ],
+    "kubernetes.namespace": [
+      "sapo-conteudos-lifestylesapopt-prod"
+    ],
+    "agent.name": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "kubernetes.node.labels.node-role_kubernetes_io/worker.keyword": [
+      "true"
+    ],
+    "host.name": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "kubernetes.labels.helm_sh/chart.keyword": [
+      "sapo-conteudos-0.0.11"
+    ],
+    "kubernetes.labels.app_kubernetes_io/name": [
+      "sapo-conteudos"
+    ],
+    "kubernetes.labels.app_kubernetes_io/instance": [
+      "sapo-conteudos-lifestylesapopt-prod"
+    ],
+    "kubernetes.node.labels.kubernetes_io/hostname.keyword": [
+      "sgt-docker12"
+    ],
+    "agent.id.keyword": [
+      "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21"
+    ],
+    "kubernetes.node.uid.keyword": [
+      "877ee60a-081e-477c-81a1-8b16f8ec334f"
+    ],
+    "input.type": [
+      "container"
+    ],
+    "log.offset": [
+      199498940
+    ],
+    "agent.hostname": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "container.runtime": [
+      "docker"
+    ],
+    "agent.id": [
+      "8c18938b-a4e9-4b80-b3f0-35a51d7a0f21"
+    ],
+    "ecs.version": [
+      "1.12.0"
+    ],
+    "message.keyword": [
+      "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]"
+    ],
+    "kubernetes.labels.helm_sh/chart": [
+      "sapo-conteudos-0.0.11"
+    ],
+    "agent.version": [
+      "7.16.1"
+    ],
+    "kubernetes.namespace.keyword": [
+      "sapo-conteudos-lifestylesapopt-prod"
+    ],
+    "kubernetes.node.name": [
+      "sgt-docker12"
+    ],
+    "stream.keyword": [
+      "stdout"
+    ],
+    "input.type.keyword": [
+      "container"
+    ],
+    "kubernetes.labels.app_kubernetes_io/managed-by.keyword": [
+      "Tiller"
+    ],
+    "kubernetes.node.hostname": [
+      "sgt-docker12"
+    ],
+    "kubernetes.labels.docker_sapo_pt/name": [
+      "fe"
+    ],
+    "kubernetes.node.name.keyword": [
+      "sgt-docker12"
+    ],
+    "kubernetes.pod.uid": [
+      "56aa65ae-47c9-4022-a238-c97822ac8eb4"
+    ],
+    "kubernetes.node.hostname.keyword": [
+      "sgt-docker12"
+    ],
+    "kubernetes.labels.docker_sapo_pt/environment": [
+      "production"
+    ],
+    "agent.type": [
+      "filebeat"
+    ],
+    "kubernetes.namespace_labels.field_cattle_io/projectId.keyword": [
+      "p-l82tc"
+    ],
+    "stream": [
+      "stdout"
+    ],
+    "kubernetes.namespace_labels.cattle_io/creator": [
+      "norman"
+    ],
+    "kubernetes.node.labels.kubernetes_io/arch.keyword": [
+      "amd64"
+    ],
+    "kubernetes.pod.name": [
+      "fe-6d595bdf7f-pbmrw"
+    ],
+    "container.image.name.keyword": [
+      "harbor.bk.sapo.pt/conteudos/production/lifestylesapopt-fe:20221124_16f7ab817"
+    ],
+    "kubernetes.labels.app_kubernetes_io/version": [
+      "0.0.1"
+    ],
+    "log.file.path.keyword": [
+      "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+    ],
+    "kubernetes.node.labels.node-role_kubernetes_io/worker": [
+      "true"
+    ],
+    "agent.type.keyword": [
+      "filebeat"
+    ],
+    "kubernetes.pod.ip": [
+      "10.42.4.226"
+    ],
+    "agent.ephemeral_id.keyword": [
+      "661dbcf4-e0cd-4f29-a36b-acf735e050bd"
+    ],
+    "kubernetes.container.name": [
+      "fe"
+    ],
+    "kubernetes.labels.pod-template-hash.keyword": [
+      "6d595bdf7f"
+    ],
+    "agent.name.keyword": [
+      "filebeat-filebeat-d9dld"
+    ],
+    "kubernetes.node.labels.beta_kubernetes_io/arch.keyword": [
+      "amd64"
+    ],
+    "kubernetes.replicaset.name": [
+      "fe-6d595bdf7f"
+    ],
+    "kubernetes.labels.app_kubernetes_io/instance.keyword": [
+      "sapo-conteudos-lifestylesapopt-prod"
+    ],
+    "message": [
+      "2022-11-25T14:54:14 [epollEventLoopGroup-3-26]  INFO #pt.sapo.sapofe.site.handler.BaseHandler# - TWIG Render: [380]"
+    ],
+    "kubernetes.node.labels.kubernetes_io/hostname": [
+      "sgt-docker12"
+    ],
+    "kubernetes.node.labels.beta_kubernetes_io/arch": [
+      "amd64"
+    ],
+    "kubernetes.pod.uid.keyword": [
+      "56aa65ae-47c9-4022-a238-c97822ac8eb4"
+    ],
+    "@timestamp": [
+      "2022-11-25T14:54:14.322Z"
+    ],
+    "kubernetes.replicaset.name.keyword": [
+      "fe-6d595bdf7f"
+    ],
+    "container.runtime.keyword": [
+      "docker"
+    ],
+    "kubernetes.labels.app_kubernetes_io/name.keyword": [
+      "sapo-conteudos"
+    ],
+    "kubernetes.labels.app_kubernetes_io/managed-by": [
+      "Tiller"
+    ],
+    "log.file.path": [
+      "/var/log/containers/fe-6d595bdf7f-pbmrw_sapo-conteudos-lifestylesapopt-prod_fe-a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087.log"
+    ],
+    "kubernetes.namespace_labels.field_cattle_io/projectId": [
+      "p-l82tc"
+    ],
+    "agent.ephemeral_id": [
+      "661dbcf4-e0cd-4f29-a36b-acf735e050bd"
+    ],
+    "kubernetes.node.labels.kubernetes_io/arch": [
+      "amd64"
+    ],
+    "container.id.keyword": [
+      "a24901ed526abca8e71e06a4ec218497ab8f1ce8713444b8528b9c3f14ce1087"
+    ],
+    "kubernetes.node.labels.beta_kubernetes_io/os.keyword": [
+      "linux"
+    ],
+    "kubernetes.pod.ip.keyword": [
+      "10.42.4.226"
+    ]
+  }
+}
