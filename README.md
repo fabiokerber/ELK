@@ -186,7 +186,7 @@ POST _ilm/policy/<new_policy>
           "min_age" : "0ms",
           "actions" : {
             "rollover" : {
-              "max_age" : "7d"
+              "max_docs" : 40000000
             }
           }
         },
