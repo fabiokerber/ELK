@@ -27,25 +27,25 @@
         "name": "fe-6fc48c96df-hh8v9",
         "uid": "1d6575d0-794a-4423-9a67-ecfc2b45bdfa"
       },
-      "namespace": "sapo-conteudos-desportosapopt-prod",
+      "namespace": "test-conteudos-desportotestpt-prod",
       "replicaset": {
         "name": "fe-6fc48c96df"
       },
       "labels": {
         "pod-template-hash": "6fc48c96df",
-        "app_kubernetes_io/instance": "sapo-conteudos-desportosapopt-prod",
+        "app_kubernetes_io/instance": "test-conteudos-desportotestpt-prod",
         "app_kubernetes_io/managed-by": "Tiller",
-        "app_kubernetes_io/name": "sapo-conteudos",
+        "app_kubernetes_io/name": "test-conteudos",
         "app_kubernetes_io/version": "0.0.1",
-        "docker_sapo_pt/environment": "production",
-        "docker_sapo_pt/name": "fe",
-        "helm_sh/chart": "sapo-conteudos-0.0.11"
+        "docker_test_pt/environment": "production",
+        "docker_test_pt/name": "fe",
+        "helm_sh/chart": "test-conteudos-0.0.11"
       }
     },
     "container": {
       "runtime": "docker",
       "image": {
-        "name": "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
+        "name": "harbor.bk.test.pt/conteudos/production/desportotestpt-fe:20221124_16f7ab817"
       },
       "id": "16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94"
     },
@@ -60,7 +60,7 @@
       "version": "7.16.1",
       "hostname": "filebeat-filebeat-jgn5w"
     },
-    "message": "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.sapo.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12",
+    "message": "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.test.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12",
     "stream": "stdout",
     "host": {
       "name": "filebeat-filebeat-jgn5w"
@@ -68,7 +68,7 @@
     "log": {
       "offset": 1243372332,
       "file": {
-        "path": "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
+        "path": "/var/log/containers/fe-6fc48c96df-hh8v9_test-conteudos-desportotestpt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
       }
     },
     "input": {
@@ -99,10 +99,10 @@
     "kubernetes.node.labels.kubernetes_io/os": [
       "linux"
     ],
-    "kubernetes.labels.docker_sapo_pt/environment.keyword": [
+    "kubernetes.labels.docker_test_pt/environment.keyword": [
       "production"
     ],
-    "kubernetes.labels.docker_sapo_pt/name.keyword": [
+    "kubernetes.labels.docker_test_pt/name.keyword": [
       "fe"
     ],
     "container.id": [
@@ -121,7 +121,7 @@
       "1.12.0"
     ],
     "container.image.name": [
-      "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
+      "harbor.bk.test.pt/conteudos/production/desportotestpt-fe:20221124_16f7ab817"
     ],
     "kubernetes.container.name.keyword": [
       "fe"
@@ -133,7 +133,7 @@
       "fe-6fc48c96df-hh8v9"
     ],
     "kubernetes.namespace": [
-      "sapo-conteudos-desportosapopt-prod"
+      "test-conteudos-desportotestpt-prod"
     ],
     "agent.name": [
       "filebeat-filebeat-jgn5w"
@@ -145,13 +145,13 @@
       "filebeat-filebeat-jgn5w"
     ],
     "kubernetes.labels.helm_sh/chart.keyword": [
-      "sapo-conteudos-0.0.11"
+      "test-conteudos-0.0.11"
     ],
     "kubernetes.labels.app_kubernetes_io/name": [
-      "sapo-conteudos"
+      "test-conteudos"
     ],
     "kubernetes.labels.app_kubernetes_io/instance": [
-      "sapo-conteudos-desportosapopt-prod"
+      "test-conteudos-desportotestpt-prod"
     ],
     "kubernetes.node.labels.kubernetes_io/hostname.keyword": [
       "sgt-docker08"
@@ -181,13 +181,13 @@
       "1.12.0"
     ],
     "kubernetes.labels.helm_sh/chart": [
-      "sapo-conteudos-0.0.11"
+      "test-conteudos-0.0.11"
     ],
     "agent.version": [
       "7.16.1"
     ],
     "kubernetes.namespace.keyword": [
-      "sapo-conteudos-desportosapopt-prod"
+      "test-conteudos-desportotestpt-prod"
     ],
     "kubernetes.node.name": [
       "sgt-docker08"
@@ -204,7 +204,7 @@
     "kubernetes.node.hostname": [
       "sgt-docker08"
     ],
-    "kubernetes.labels.docker_sapo_pt/name": [
+    "kubernetes.labels.docker_test_pt/name": [
       "fe"
     ],
     "kubernetes.node.name.keyword": [
@@ -216,7 +216,7 @@
     "kubernetes.node.hostname.keyword": [
       "sgt-docker08"
     ],
-    "kubernetes.labels.docker_sapo_pt/environment": [
+    "kubernetes.labels.docker_test_pt/environment": [
       "production"
     ],
     "agent.type": [
@@ -238,13 +238,13 @@
       "fe-6fc48c96df-hh8v9"
     ],
     "container.image.name.keyword": [
-      "harbor.bk.sapo.pt/conteudos/production/desportosapopt-fe:20221124_16f7ab817"
+      "harbor.bk.test.pt/conteudos/production/desportotestpt-fe:20221124_16f7ab817"
     ],
     "kubernetes.labels.app_kubernetes_io/version": [
       "0.0.1"
     ],
     "log.file.path.keyword": [
-      "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
+      "/var/log/containers/fe-6fc48c96df-hh8v9_test-conteudos-desportotestpt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
     ],
     "kubernetes.node.labels.node-role_kubernetes_io/worker": [
       "true"
@@ -274,10 +274,10 @@
       "fe-6fc48c96df"
     ],
     "kubernetes.labels.app_kubernetes_io/instance.keyword": [
-      "sapo-conteudos-desportosapopt-prod"
+      "test-conteudos-desportotestpt-prod"
     ],
     "message": [
-      "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.sapo.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12"
+      "2022-11-25T17:06:07 [epollEventLoopGroup-3-17] INFO REQUEST: http://desporto.api.backoffice.canais.bk.test.pt/v2/search?api_key=fc619df50dae35f7845516fdfb70331d624d675a&q=*:*&filter_query=type:post+AND+tag_slugs:judo&sort=date+desc&taxonomies=post_tag&page_size=24&page=12"
     ],
     "kubernetes.node.labels.kubernetes_io/hostname": [
       "sgt-docker08"
@@ -298,13 +298,13 @@
       "docker"
     ],
     "kubernetes.labels.app_kubernetes_io/name.keyword": [
-      "sapo-conteudos"
+      "test-conteudos"
     ],
     "kubernetes.labels.app_kubernetes_io/managed-by": [
       "Tiller"
     ],
     "log.file.path": [
-      "/var/log/containers/fe-6fc48c96df-hh8v9_sapo-conteudos-desportosapopt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
+      "/var/log/containers/fe-6fc48c96df-hh8v9_test-conteudos-desportotestpt-prod_fe-16f4b6de089e205e36a0d7b00b698e6385f3c22a1541a3c1803430bdaf2c0a94.log"
     ],
     "kubernetes.namespace_labels.field_cattle_io/projectId": [
       "p-l82tc"
