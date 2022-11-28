@@ -21,6 +21,7 @@ GET _cat/indices/<index>*?v=true&s=index
 GET _cat/indices/<index>*?v=true&s=index
 GET <index>/_settings?filter_path=*.settings.index.lifecycle
 GET <index>*/_settings?filter_path=*.settings.index.lifecycle
+GET _cat/indices/<index>*?v=true&s=index&h=index,store.size
 
 GET _component_template
 GET _component_template/<component_template>
