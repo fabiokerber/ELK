@@ -21,7 +21,7 @@ GET _cat/indices/<index>*?v=true&s=index
 GET _cat/indices/<index>*?v=true&s=index
 GET <index>/_settings?filter_path=*.settings.index.lifecycle
 GET <index>*/_settings?filter_path=*.settings.index.lifecycle
-GET _cat/indices/<index>*?v=true&s=index&h=index,store.size
+GET _cat/indices/<index>*?v=true&s=index&h=index,store.size&bytes=gb
 
 GET _component_template
 GET _component_template/<component_template>
@@ -111,7 +111,6 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
     - Logs
     - Metrics
   - **Management**
-    - Dev Tools
     - Index Pattern Management
 
 ## User ▶︎ `Dev Tools`<br>
@@ -168,7 +167,6 @@ POST _security/role/<new_role>
           "feature_ml.all",
           "feature_visualize.all",
           "feature_logs.all",
-          "feature_dev_tools.all",
           "feature_indexPatterns.all",
           "feature_infrastructure.all"
       ],
@@ -189,7 +187,7 @@ POST _security/role/<new_role>
 }
 ```
 
-**Create `new_user` and set `new_role` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
+**Set `new_role` to `new_user` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
 ```json
 POST _security/user/<new_user>
 {
