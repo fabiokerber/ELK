@@ -53,22 +53,22 @@ GET _cat/shards/<index>*?v=true&s=prirep
 
 **Elastic System**
 ```yml
-HEALTH
+*HEALTH*
 GET _cat/health?v&pretty
 
-ILM
+*ILM*
 GET _cluster/settings?include_defaults=true&filter_path=*.indices.lifecycle*,*.xpack.ilm*
 
-MASTER NODE
+*MASTER NODE*
 GET _cat/master?v&pretty
 
-ALL NODES
+*ALL NODES*
 GET _cat/nodes?v&pretty
 
-TASKS
+*TASKS*
 GET _cat/tasks?v&pretty
 
-DISK USAGE
+*DISK USAGE*
 GET _cat/allocation?v&pretty
 ```
 
