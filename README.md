@@ -1,29 +1,76 @@
 # ELK
 
-**Links**<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html<br>
-https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
-<br />
-https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
-https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
-https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
-https://aravind.dev/elastic-data-stream/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
-<br />
-https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
-https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
-https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
-https://github.com/elastic/elasticsearch/issues/32531<br>
-https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
-<br />
-https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
-https://linuxhint.com/elasticsearch-shard-list/<br>
-https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
-https://www.alibabacloud.com/blog/597074<br>
+## API - Dev Tools [🔗cURL](https://curl.se/docs/manpage.html)<br>
+
+**User**
+```yml
+GET _security/user
+GET _security/user/<user>
+```
+
+**Role**
+```yml
+GET _security/role
+GET _security/role/<role>
+```
+
+**Index**
+```yml
+GET <index>
+GET _cat/indices/<index>*?v=true&s=index
+GET _cat/indices/<index>*?v=true&s=index
+GET <index>/_settings?filter_path=*.settings.index.lifecycle
+GET <index>*/_settings?filter_path=*.settings.index.lifecycle
+
+GET _component_template
+GET _component_template/<component_template>
+
+GET _index_template
+GET _index_template/<index_template>
+```
+
+**Aliases**
+```yml
+GET _aliases
+GET _aliases/<alias>
+```
+
+**ILM**
+```yml
+GET _ilm/policy
+GET _ilm/policy/<policy>
+GET <index>/_ilm/explain?human
+GET <index>*/_ilm/explain?human
+GET /_ilm/status
+```
+
+**Shards**
+```yml
+GET _cat/shards/?v=true
+GET _cat/shards/<index>?v=true&s=prirep
+GET _cat/shards/<index>*?v=true&s=prirep
+```
+
+**Elastic System**
+```yml
+HEALTH
+GET _cat/health?v&pretty
+
+ILM
+GET _cluster/settings?include_defaults=true&filter_path=*.indices.lifecycle*,*.xpack.ilm*
+
+MASTER NODE
+GET _cat/master?v&pretty
+
+ALL NODES
+GET _cat/nodes?v&pretty
+
+TASKS
+GET _cat/tasks?v&pretty
+
+DISK USAGE
+GET _cat/allocation?v&pretty
+```
 
 ```yml
 > Vagrantfile
@@ -42,28 +89,6 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 > http://LOG_IP:5601
 
 > http://LOG_IP:9200
-```
-
-**API**
-```yml
-GET _ilm/policy/enterprise-logs-policy
-GET _component_template/enterprise-logs-component-template
-GET _index_template/enterprise-logs
-GET enterprise-survey-000001
-GET entreprise-survey-*/_ilm/explain
-GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true
-GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&s=prirep
-GET _cat/shards/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&format=json
-GET _cat/indices/filebeat-k8s-sapo-conteudos-lifestylesapopt-prod-fe*?v=true&s=index
-
-GET _ilm/policy/logs-policy
-GET _component_template/logs-component-template
-GET _index_template/logs
-
-DELETE _data_stream/log-stream
-DELETE _index_template/logs-index-template
-DELETE _component_template/logs-component-template
-DELETE _ilm/policy/logs-policy
 ```
 
 # TEMPLATE
@@ -263,11 +288,11 @@ PUT _index_template/<new_index_template>
 ```json
 PUT <new_index>-000001
 {
-    "aliases": {
-        "<new_alias>": {
-            "is_write_index": true
-        }
+  "aliases": {
+    "<new_alias>": {
+      "is_write_index": true
     }
+  }
 }
 ```
 
@@ -332,7 +357,7 @@ POST _security/role/<new_role>
 for i in {1..25000}
 do
         NOW=$(date '+%Y-%m-%dT%H:%M:%S.%3NZ')
-        curl -H "Content-Type: application/json" -X POST "http://192.168.56.185:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
+        curl -H "Content-Type: application/json" -X POST "http://<ip>:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
 
@@ -409,3 +434,28 @@ xpack.security.http.filter.enabled: true
 $ ssh fabio@mgm-manager01.manager.bk.sapo.pt
 $ kubectl -n logging --context conteudos get cm filebeat-filebeat-daemonset-config -o yaml
 ```
+
+**Links**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html<br>
+https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
+<br />
+https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
+https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
+https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
+https://aravind.dev/elastic-data-stream/<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
+<br />
+https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
+https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
+https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
+https://github.com/elastic/elasticsearch/issues/32531<br>
+https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
+<br />
+https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
+https://linuxhint.com/elasticsearch-shard-list/<br>
+https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
+https://www.alibabacloud.com/blog/597074<br>
