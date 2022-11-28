@@ -193,13 +193,23 @@ POST _ilm/policy/<new_policy>
         "warm" : {
           "min_age" : "1d",
           "actions" : {
+            "allocate" : {
+              "number_of_replicas" : 0,
+              "include" : { },
+              "exclude" : { },
+              "require" : { }
+            },
             "shrink" : {
               "number_of_shards" : 1
             }
           }
         },
-        "delete" : {
+        "cold" : {
           "min_age" : "2d",
+          "actions" : { }
+        },
+        "delete" : {
+          "min_age" : "7d",
           "actions" : {
             "delete" : {
               "delete_searchable_snapshot" : true
