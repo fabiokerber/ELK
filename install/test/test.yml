@@ -158,7 +158,7 @@ PUT /test-network-logs-000001
 ############################################# #############################################
 
 $ ssh fabio@mgm-manager01.manager.bk.test.pt
-$ touch looptest_{server,network}.sh && chmod +x vlooptest_{server,network}.sh 
+$ touch looptest_{server,network}.sh && chmod +x looptest_{server,network}.sh 
 $ vi looptest_server.sh
 $ vi looptest_network.sh
 $ bash looptest_server.sh

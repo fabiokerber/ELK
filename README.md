@@ -22,6 +22,8 @@ GET _cat/indices/<index>*?v=true&s=index
 GET <index>/_settings?filter_path=*.settings.index.lifecycle
 GET <index>*/_settings?filter_path=*.settings.index.lifecycle
 GET _cat/indices/<index>*?v=true&s=index&h=index,store.size&bytes=gb
+GET _cat/indices/<index>*-fe-*?v=true&s=docs.count:desc
+GET _cat/indices/<index>*-db-*?v=true&s=docs.count:desc
 
 GET _component_template
 GET _component_template/<component_template>
