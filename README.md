@@ -131,6 +131,9 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 ## User ▶︎ `Dev Tools`<br>
 
 **Create `new_user` with default role `run_as` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
+```diff
+- Run GET to check if there are other users in the role, before running POST
+```
 ```json
 POST _security/user/<new_user>
 {
@@ -206,7 +209,6 @@ POST _security/role/<new_role>
 ```json
 POST _security/user/<new_user>
 {
-  "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as","<new_role>"],
   "full_name" : "<full_name>",
   "email" : "<email>"
