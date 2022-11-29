@@ -94,9 +94,22 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 
 # TEMPLATE
 
+- Space: `new_space`
+- Background color: `background_color`
+- Index: `new_index`
+- Index component template: `new_index_component_template`
+- Index template: `new_index_template`
+- Role: `new_role`
+- Alias: `new_alias`
+- ILM Policy: `new_policy`
+- User: `new_user`
+- User full name: `full_name`
+- User email: `email`
+**Space = Role** 
+
 ## Spaces ▶︎ `Management > Spaces`<br>
 
-**Create space `new_space`[🔗Spaces](https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html)**<br>
+**Create space `new_space` [🔗Spaces](https://www.elastic.co/guide/en/kibana/master/xpack-spaces.html)**<br>
 - **+ Create space**
   - **Name:** `new_space`
   - **Background color:** `background_color`
@@ -115,7 +128,7 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 
 ## User ▶︎ `Dev Tools`<br>
 
-**Create `new_user` with default role `run_as`[🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
+**Create `new_user` with default role `run_as` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
 ```json
 POST _security/user/<new_user>
 {
@@ -171,7 +184,7 @@ POST _security/role/<new_role>
           "feature_infrastructure.all"
       ],
       "resources" : [
-        "<new_space>"
+        "space:<new_space>"
       ]
     }
   ],
@@ -275,7 +288,7 @@ PUT _component_template/<new_component_template>
 PUT _index_template/<new_index_template>
 {
   "index_patterns": [
-    "<new_index>*"
+    "<new_alias>*"
   ],
   "composed_of": [
     "<new_component_template>"
@@ -285,7 +298,7 @@ PUT _index_template/<new_index_template>
 
 **Create `new_index` [🔗Add an alias at index creation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/aliases.html#add-alias-at-creation)**<br>
 ```json
-PUT <new_index>-000001
+PUT <new_alias>-000001
 {
   "aliases": {
     "<new_alias>": {
@@ -295,7 +308,7 @@ PUT <new_index>-000001
 }
 ```
 
-**Allow access `new_index` to all users belong to `new_role` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
+**Allow access `new_alias` to all users belong to `new_role` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
 ```json
 POST _security/role/<new_role>
 {
@@ -303,7 +316,7 @@ POST _security/role/<new_role>
   "indices" : [
     {
       "names" : [
-        "<new_index>*"
+        "<new_alias>*"
       ],
       "privileges" : [
         "all"
@@ -322,12 +335,11 @@ POST _security/role/<new_role>
           "feature_ml.all",
           "feature_visualize.all",
           "feature_logs.all",
-          "feature_dev_tools.all",
           "feature_indexPatterns.all",
           "feature_infrastructure.all"
       ],
       "resources" : [
-        "<new_space>"
+        "space:<new_space>"
       ]
     }
   ],
@@ -347,7 +359,7 @@ POST _security/role/<new_role>
 
 **Create `new_index_pattern` after receiving the first log in `new_index` [🔗Create an index pattern](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern)**<br>
 - **+ Create index pattern**
-  - **Name:** `new_index`
+  - **Name:** `new_alias`
   - **Timestamp field:** @timestamp
 
 ## SEND LOGS
