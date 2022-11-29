@@ -106,7 +106,7 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 - ILM Policy: `new_policy`
 - User: `new_user`
 - User full name: `full_name`
-- User email: `email`
+- User email: `email`<br>
 **Space = Role** 
 
 ## Spaces ▶︎ `Management > Spaces`<br>
