@@ -368,6 +368,10 @@ POST _security/role/<new_role>
 - **+ Create index pattern**
   - **Name:** `new_alias`
   - **Timestamp field:** @timestamp
+```diff
++ **Name:** `new_alias`* > use filters to search differents alias, inside index pattern (fe & db...)
++ **Name:** `new_alias` > results docs from just one alias
+```
 
 ## SEND LOGS
 ```bash
