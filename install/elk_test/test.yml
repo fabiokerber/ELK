@@ -203,7 +203,7 @@ User email: usera@test.pt & userb@test.pt
 
 # User
 
-POST _security/user/usera
+PUT _security/user/usera
 {
   "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as"],
@@ -211,7 +211,7 @@ POST _security/user/usera
   "email" : "usera@test.pt"
 }
 
-POST _security/user/userb
+PUT _security/user/userb
 {
   "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as"],
@@ -219,7 +219,7 @@ POST _security/user/userb
   "email" : "userb@test.pt"
 }
 
-POST _security/role/run_as
+PUT _security/role/run_as
 {
   "cluster": [],
   "indices": [],
@@ -235,7 +235,7 @@ POST _security/role/run_as
 
 # Role
 
-POST _security/role/conteudos-frontend
+PUT _security/role/conteudos-frontend
 {
   "cluster" : [ ],
   "indices" : [
@@ -278,7 +278,7 @@ POST _security/role/conteudos-frontend
     }
 }
 
-POST _security/user/usera
+PUT _security/user/usera
 {
   "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as","conteudos-frontend"],
@@ -286,7 +286,7 @@ POST _security/user/usera
   "email" : "usera@test.pt"
 }
 
-POST _security/user/userb
+PUT _security/user/userb
 {
   "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as","conteudos-frontend"],
@@ -297,7 +297,7 @@ POST _security/user/userb
 
 # ILM Policy
 
-POST _ilm/policy/filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe-policy
+PUT _ilm/policy/filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe-policy
 {
     "policy": {
       "phases" : {
@@ -381,7 +381,7 @@ PUT filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe-000001
   }
 }
 
-POST _security/role/conteudos-frontend
+PUT _security/role/conteudos-frontend
 {
   "cluster" : [ ],
   "indices" : [
