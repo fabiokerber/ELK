@@ -1,2 +1,3 @@
-[🔗Elastic](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern)**<br>
-[🔗Filebeat](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html#settings-create-pattern)**<br>
+[🔗Elastic](https://github.com/fabiokerber/ELK/blob/main/elastic/elastic.md)**<br>
+<br />
+[🔗Filebeat](https://github.com/fabiokerber/ELK/blob/main/filebeat/filebeat.md)**<br>
