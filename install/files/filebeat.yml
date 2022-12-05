@@ -39,8 +39,6 @@ setup.kibana:
 output.elasticsearch:
 
   hosts: ["IP:9200"]
-  indices:
-    - index: "filebeat-%{[agent.version]}-logs"
     
 # ================================= Processors =================================
 
