@@ -414,6 +414,34 @@ PUT /_cluster/settings
 }
 ```
 
+## Extra
+
+**This template is low priority and applies to all indexes:**
+```json
+PUT _template/template_1
+{
+  "index_patterns": ["*"],           <-- applies to all indexes
+  "order": 0,                        <-- lowest priority
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  }
+}
+```
+
+**This template has a higher priority and only applies to indexes foo*:**
+```json
+PUT _template/template_1
+{
+  "index_patterns": ["foo*"],        <-- only applies to foo*
+  "order": 3,                        <-- higher priority
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1          <-- overrides the number of replicas from base template
+  }
+}
+```
+
 You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.<br>
 Allow rules take precedence over the deny rules<br>
 ```yml
@@ -468,7 +496,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.htm
 https://aravind.dev/elastic-data-stream/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
+https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html<br>
+https://stackoverflow.com/questions/57957296/elasticsearch-set-default-number-of-replicas-to-0<br>
 <br />
 https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>

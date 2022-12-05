@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
         elk.vm.hostname = 'log.aut.lab'
         elk.vm.network 'private_network', ip: ENV['LOG_IP']
 
-        elk.vm.provision 'shell', inline: 'echo "$IP srv01.aut.lab srv01" >> /etc/hosts', env: {"IP" => ENV['SRV01_IP']}
+        elk.vm.provision 'shell', inline: 'echo "$IP filebeat.aut.lab filebeat" >> /etc/hosts', env: {"IP" => ENV['SRV01_IP']}
 
         elk.vm.provision 'shell', inline: 'sudo timedatectl set-timezone $TZ', env: {"TZ" => ENV['TIMEZONE']}
         elk.vm.provision 'shell', inline: 'sudo sysctl -w vm.max_map_count=262144'
@@ -46,21 +46,21 @@ Vagrant.configure('2') do |config|
 
     end
 
-    config.vm.define 'srv01' do |srv01|
+    config.vm.define 'filebeat' do |filebeat|
 
-        srv01.vm.box = 'ubuntu/focal64'
-        srv01.vm.hostname = 'srv01.aut.lab'
-        srv01.vm.network 'private_network', ip: ENV['SRV01_IP'], bridge: ENV['INTERFACE']
+        filebeat.vm.box = 'ubuntu/focal64'
+        filebeat.vm.hostname = 'filebeat.aut.lab'
+        filebeat.vm.network 'private_network', ip: ENV['SRV01_IP'], bridge: ENV['INTERFACE']
 
-        srv01.vm.provision 'shell', inline: 'echo "$IP log.aut.lab log" >> /etc/hosts', env: {"IP" => ENV['LOG_IP']}
+        filebeat.vm.provision 'shell', inline: 'echo "$IP log.aut.lab log" >> /etc/hosts', env: {"IP" => ENV['LOG_IP']}
 
-        srv01.vm.provision 'shell', inline: 'sudo timedatectl set-timezone $TZ', env: {"TZ" => ENV['TIMEZONE']}
-        srv01.vm.provision 'shell', inline: 'sudo apt update'
+        filebeat.vm.provision 'shell', inline: 'sudo timedatectl set-timezone $TZ', env: {"TZ" => ENV['TIMEZONE']}
+        filebeat.vm.provision 'shell', inline: 'sudo apt update'
 
-        srv01.vm.provider 'virtualbox' do |vb|
+        filebeat.vm.provider 'virtualbox' do |vb|
             vb.memory = 1024
             vb.cpus = 2
-            vb.name = 'srv01.aut.lab'
+            vb.name = 'filebeat.aut.lab'
             vb.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
 
         end
