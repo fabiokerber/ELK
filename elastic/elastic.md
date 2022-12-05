@@ -132,7 +132,7 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 
 **Create `new_user` with default role `run_as` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
 ```json
-POST _security/user/<new_user>
+PUT _security/user/<new_user>
 {
   "password" : "${openssl rand -hex 32}",
   "roles" : ["run_as"],
@@ -143,15 +143,17 @@ POST _security/user/<new_user>
 
 **Add `new_user` to role `run_as` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
 ```diff
-- Run GET to check if there are other users in the role, before running POST
+- Run GET to check if there are other users in the role, before running PUT
 ```
 ```json
-POST _security/role/run_as
+PUT _security/role/run_as
 {
-  "cluster": [],
-  "indices": [],
+  "cluster" : [ ],
+  "indices" : [ ],
+  "applications" : [ ],
   "run_as": [ 
-    "<new_user>"],
+    "<new_user>"
+  ],
   "metadata" : {
     "version" : 1
   }
@@ -162,10 +164,10 @@ POST _security/role/run_as
 
 **Create role `new_role`, including `new_space` and `new_user` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
 ```diff
-- Run GET to check if already exist this role, before running POST
+- Run GET to check if already exist this role, before running PUT
 ```
 ```json
-POST _security/role/<new_role>
+PUT _security/role/<new_role>
 {
   "cluster" : [ ],
   "indices" : [
@@ -210,7 +212,7 @@ POST _security/role/<new_role>
 
 **Set `new_role` to `new_user` [🔗Configure security in Kibana API](https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html)**<br>
 ```json
-POST _security/user/<new_user>
+PUT _security/user/<new_user>
 {
   "roles" : ["run_as","<new_role>"],
   "full_name" : "<full_name>",
@@ -222,7 +224,7 @@ POST _security/user/<new_user>
 
 **Create `new_policy` [🔗Create or update lifecycle policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html)**<br>
 ```json
-POST _ilm/policy/<new_policy>
+PUT _ilm/policy/<new_policy>
 {
     "policy": {
       "phases" : {
@@ -317,7 +319,7 @@ PUT <new_alias>-000001
 
 **Allow access `new_alias` to all users belong to `new_role` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
 ```json
-POST _security/role/<new_role>
+PUT _security/role/<new_role>
 {
   "cluster" : [ ],
   "indices" : [
@@ -379,7 +381,7 @@ POST _security/role/<new_role>
 for i in {1..25000}
 do
         NOW=$(date '+%Y-%m-%dT%H:%M:%S.%3NZ')
-        curl -H "Content-Type: application/json" -X POST "http://<ip>:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
+        curl -H "Content-Type: application/json" -X PUT "http://<ip>:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
 
@@ -387,7 +389,9 @@ $ chmod +x loop.sh
 $ bash loop.sh
 ```
 
-## Allow/Deny Logs - API ▶︎ `Dev Tools`<br>
+## Extra
+
+**Allow/Deny Logs - API ▶︎ `Dev Tools`**
 ```json
 PUT /_cluster/settings
 {
@@ -414,75 +418,41 @@ PUT /_cluster/settings
 }
 ```
 
-## Extra
-
-**This template is low priority and applies to all indexes:**
-```json
-PUT _template/template_1
-{
-  "index_patterns": ["*"],           <-- applies to all indexes
-  "order": 0,                        <-- lowest priority
-  "settings": {
-    "number_of_shards": 1,
-    "number_of_replicas": 0
-  }
-}
-```
-
-**This template has a higher priority and only applies to indexes foo*:**
-```json
-PUT _template/template_1
-{
-  "index_patterns": ["foo*"],        <-- only applies to foo*
-  "order": 3,                        <-- higher priority
-  "settings": {
-    "number_of_shards": 1,
-    "number_of_replicas": 1          <-- overrides the number of replicas from base template
-  }
-}
-```
-
-You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.<br>
-Allow rules take precedence over the deny rules<br>
+**You configure IP filtering by specifying the *xpack.security.transport.filter.allow* and *xpack.security.transport.filter.deny*.**<br>
+**Allow rules take precedence over the deny rules**<br>
 ```yml
 xpack.security.transport.filter.allow: "192.168.0.1"
 xpack.security.transport.filter.deny: "192.168.0.0/24"
 ```
 
-The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed<br>
+**The *_all* keyword can be used to *deny all connections* that are not *explicitly* allowed**<br>
 ```yml
 xpack.security.transport.filter.allow: [ "192.168.0.1", "192.168.0.2", "192.168.0.3", "192.168.0.4" ]
 xpack.security.transport.filter.deny: _all
 ```
 
-IP filtering configuration also support *IPv6 addresses*<br>
+**IP filtering configuration also support *IPv6 addresses***<br>
 ```yml
 xpack.security.transport.filter.allow: "2001:0db8:1234::/48"
 xpack.security.transport.filter.deny: "1234:0db8:85a3:0000:0000:8a2e:0370:7334"
 ```
 
-You can also filter by hostnames when *DNS lookups* are available<br>
+**You can also filter by hostnames when *DNS lookups* are available**<br>
 ```yml
 xpack.security.transport.filter.allow: localhost
 xpack.security.transport.filter.deny: '*.google.com'
 ```
 
-*Disabling IP filtering* can slightly improve performance under some conditions<br>
-To disable IP filtering entirely:
+***Disabling IP filtering* can slightly improve performance under some conditions**<br>
+**To disable IP filtering entirely:**
 ```yml
 xpack.security.transport.filter.enabled: false
 ```
 
-You can also disable IP filtering for the transport protocol but enable it for HTTP only<br>
+**You can also disable IP filtering for the transport protocol but enable it for HTTP only**<br>
 ```yml
 xpack.security.transport.filter.enabled: false
 xpack.security.http.filter.enabled: true
-```
-
-## filebeat.yml
-```bash
-$ ssh fabio@mgm-manager01.manager.bk.sapo.pt
-$ kubectl -n logging --context conteudos get cm filebeat-filebeat-daemonset-config -o yaml
 ```
 
 **Links**<br>

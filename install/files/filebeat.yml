@@ -1,0 +1,53 @@
+# ============================== Filebeat inputs ===============================
+
+filebeat.inputs:
+
+- type: filestream
+  id: srv01
+  enabled: true
+  paths:
+    - /var/log/*.log
+
+# ============================== Filebeat modules ==============================
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ======================= Elasticsearch template setting =======================
+
+setup.template.enabled: true
+setup.template.name: "filebeat-%{[agent.version]}-server"
+setup.template.settings:
+  index.number_of_shards: 1
+  index.number_of_replicas: 0
+  index.codec: best_compression
+
+# ====================== Index Lifecycle Management (ILM) ======================
+
+setup.ilm.enabled: true
+setup.ilm.policy_name: "logs_policy"
+setup.ilm.rollover_alias: "filebeat-%{[agent.version]}-server"
+setup.ilm.pattern: "000001"
+
+# =================================== Kibana ===================================
+
+setup.kibana:
+
+# ================================== Outputs ===================================
+
+output.elasticsearch:
+
+  hosts: ["IP:9200"]
+  indices:
+    - index: "filebeat-%{[agent.version]}-logs"
+    
+# ================================= Processors =================================
+
+processors:
+
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~

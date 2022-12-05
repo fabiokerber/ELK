@@ -42,7 +42,7 @@ services:
       ELASTICSEARCH_HOST: ${ELASTIC_HOST}
       ELASTICSEARCH_PORT: ${ELASTIC_PORT}
     volumes:
-      - /home/vagrant/volumes/elk/logstash/conf.d:/etc/logstash/conf.d
+      - /home/vagrant/volumes/elk/logstash/config:/etc/logstash/conf.d
     ports:
       - '5000:5000'
       - '5044:5044'
