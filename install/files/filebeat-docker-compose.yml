@@ -5,7 +5,7 @@ services:
     container_name: filebeat
     image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
     restart: unless-stopped
-    hostname: "{{.Node.Hostname}}-filebeat"
+    hostname: srv01.aut.lab
     user: root
     volumes:
       - /home/vagrant/volumes/elk/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
@@ -19,6 +19,7 @@ services:
       KIBANA_HOST: ${KIBANA_HOST}
       ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
       ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+      HOSTNAME: srv01
     networks:
       - filebeat-network
 

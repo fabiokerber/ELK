@@ -240,7 +240,9 @@ PUT _security/role/conteudos-frontend
   "cluster" : [ ],
   "indices" : [
     {
-      "names" : [ ],
+      "names" : [
+        "filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe*"
+      ],
       "privileges" : [
         "all"
       ],
@@ -380,52 +382,6 @@ PUT filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe-000001
     }
   }
 }
-
-PUT _security/role/conteudos-frontend
-{
-  "cluster" : [ ],
-  "indices" : [
-    {
-      "names" : [
-        "filebeat-k8s-test-conteudos-lifestyletestpt-prod-fe*"
-      ],
-      "privileges" : [
-        "all"
-      ],
-      "allow_restricted_indices" : false
-    }
-  ],
-  "applications" : [
-    {
-      "application" : "kibana-.kibana",
-      "privileges" : [
-          "feature_discover.all",
-          "feature_dashboard.all",
-          "feature_canvas.all",
-          "feature_maps.all",
-          "feature_ml.all",
-          "feature_visualize.all",
-          "feature_logs.all",
-          "feature_indexPatterns.all",
-          "feature_infrastructure.all"
-      ],
-      "resources" : [
-        "space:conteudos"
-      ]
-    }
-  ],
-  "run_as" : [
-      "usera",
-      "userb"
-  ],
-  "metadata" : {
-    "version" : 1
-  },
-  "transient_metadata" : {
-    "enabled" : true
-    }
-}
-
 
 # Index Pattern ^([https://elk.bk.test.pt/app/home Management > Stack Management > Kibana > Index Patterns)]^ =
 

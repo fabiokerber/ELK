@@ -162,7 +162,7 @@ PUT _security/role/run_as
 
 ## Role ▶︎ `Dev Tools`<br>
 
-**Create role `new_role`, including `new_space` and `new_user` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
+**Create role `new_role`, including `new_alias`, `new_space` and `new_user` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
 ```diff
 - Run GET to check if already exist this role, before running PUT
 ```
@@ -172,7 +172,9 @@ PUT _security/role/<new_role>
   "cluster" : [ ],
   "indices" : [
     {
-      "names" : [ ],
+      "names" : [
+        "<new_alias>*"
+      ],
       "privileges" : [
         "all"
       ],
@@ -316,52 +318,8 @@ PUT <new_alias>-000001
   }
 }
 ```
-
-**Allow access `new_alias` to all users belong to `new_role` [🔗Create or update roles API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/security-api-put-role.html)**<br>
-```json
-PUT _security/role/<new_role>
-{
-  "cluster" : [ ],
-  "indices" : [
-    {
-      "names" : [
-        "<new_alias>*"
-      ],
-      "privileges" : [
-        "all"
-      ],
-      "allow_restricted_indices" : false
-    }
-  ],
-  "applications" : [
-    {
-      "application" : "kibana-.kibana",
-      "privileges" : [
-          "feature_discover.all",
-          "feature_dashboard.all",
-          "feature_canvas.all",
-          "feature_maps.all",
-          "feature_ml.all",
-          "feature_visualize.all",
-          "feature_logs.all",
-          "feature_indexPatterns.all",
-          "feature_infrastructure.all"
-      ],
-      "resources" : [
-        "space:<new_space>"
-      ]
-    }
-  ],
-  "run_as" : [
-    "<new_user>"
-  ],
-  "metadata" : {
-    "version" : 1
-  },
-  "transient_metadata" : {
-    "enabled" : true
-    }
-}
+```diff
++ **aliases:** "<new_alias1>","<new_alias2>"* > more than one alias to same index
 ```
 
 ## Index Pattern ▶︎ `Management > Stack Management > Kibana > Index Patterns`<br>
