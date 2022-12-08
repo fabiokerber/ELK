@@ -3,11 +3,22 @@
 filebeat.inputs:
 
 - type: filestream
-  id: srv01-logs
+  id: srv01-server-log
   enabled: true
   paths:
-    - /var/log/*.log
-  exclude_lines: ['sit']
+    - /var/log/server.log
+  fields:
+    reference.file: server.log
+  exclude_lines: ['minim']
+
+- type: filestream
+  id: srv01-network-log
+  enabled: true
+  paths:
+    - /var/log/network.log
+  fields:
+    reference.file: network.log
+  exclude_lines: ['minim']
 
 # ============================== Filebeat modules ==============================
 
@@ -18,6 +29,7 @@ filebeat.config.modules:
 # ======================= Elasticsearch template setting =======================
 
 setup.template.enabled: true
+setup.template.overwrite: false
 setup.template.name: "filebeat-%{[agent.version]}-${HOSTNAME}-template"
 setup.template.settings:
   index.number_of_shards: 1
@@ -41,7 +53,7 @@ setup.kibana:
 output.elasticsearch:
 
   hosts: ["IP:9200"]
-    
+
 # ================================= Processors =================================
 
 processors:
