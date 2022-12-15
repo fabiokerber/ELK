@@ -71,6 +71,9 @@ GET _cat/nodes?v&pretty
 *TASKS*
 GET _cat/tasks?v&pretty
 
+*CPU USAGE*
+GET _cat/nodes?v=true&s=cpu:desc
+
 *DISK USAGE*
 GET _cat/allocation?v&pretty
 ```
@@ -438,3 +441,4 @@ https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasti
 https://linuxhint.com/elasticsearch-shard-list/<br>
 https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
 https://www.alibabacloud.com/blog/597074<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/master/high-cpu-usage.html<br>
