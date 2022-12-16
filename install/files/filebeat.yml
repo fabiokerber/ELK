@@ -65,4 +65,22 @@ processors:
   - add_kubernetes_metadata: ~
 
   - drop_fields:
-      fields: ["host.os.codename","host.os.family","host.os.kernel","host.os.platform","host.os.type","host.os.name","host.os.version","input.type"]
+      fields: [
+        "agent.ephemeral_id",
+        "agent.hostname",
+        "agent.id",
+        "agent.name",
+        "agent.type",
+        "agent.version",
+        "host.architecture",
+        "host.containerized",
+        "host.name",
+        "host.os.codename",
+        "host.os.family",
+        "host.os.kernel",
+        "host.os.platform",
+        "host.os.type",
+        "host.os.name",
+        "host.os.version",
+        "input.type"
+        ]
