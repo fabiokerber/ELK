@@ -41,42 +41,7 @@ data:
       - drop_fields:
           when:
             has_fields:
-              [
-                'agent.ephemeral_id',
-                'agent.hostname',
-                'agent.id',
-                'agent.name',
-                'container.id',
-                'container.runtime',
-                'ecs.version',
-                'host.name',
-                'input.type',
-                'kubernetes.labels.app_kubernetes_io/instance',
-                'kubernetes.labels.app_kubernetes_io/managed-by',
-                'kubernetes.labels.app_kubernetes_io/name',
-                'kubernetes.labels.app_kubernetes_io/version',
-                'kubernetes.labels.docker_sapo_pt/environment',
-                'kubernetes.labels.docker_sapo_pt/name',
-                'kubernetes.labels.helm_sh/chart',
-                'kubernetes.labels.pod-template-hash',
-                'kubernetes.namespace_labels.cattle_io/creator',
-                'kubernetes.namespace_labels.field_cattle_io/projectId',
-                'kubernetes.namespace_uid',
-                'kubernetes.node.hostname',
-                'kubernetes.node.labels.beta_kubernetes_io/arch',
-                'kubernetes.node.labels.beta_kubernetes_io/os',
-                'kubernetes.node.labels.kubernetes_io/arch',
-                'kubernetes.node.labels.kubernetes_io/os',
-                'kubernetes.node.labels.kubernetes_io/hostname',
-                'kubernetes.node.labels.node-role_kubernetes_io/controlplane',
-                'kubernetes.node.labels.node-role_kubernetes_io/etcd',
-                'kubernetes.node.labels.node-role_kubernetes_io/worker',
-                'kubernetes.node.name',
-                'kubernetes.node.uid',
-                'kubernetes.pod.uid',
-                'kubernetes.replicaset.name',
-                'stream'
-              ]
+              ['agent.ephemeral_id']
           fields:
             - 'agent.ephemeral_id'
             - 'agent.hostname'
