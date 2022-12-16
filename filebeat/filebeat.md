@@ -116,6 +116,7 @@ contexts:
     user: "conteudos"
     cluster: "conteudos"
 ```
+
 ## ConfigMap
 ```bash
 $ kubectl -n logging --context conteudos get cm filebeat-filebeat-daemonset-config -o yaml
