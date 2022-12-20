@@ -73,6 +73,13 @@ do
 done
 ```
 
+**JSON > log**
+```bash
+echo '{"level":"INFO","thread":"epollEventLoopGroup-3-17","logger":"pt.sapo.sapofe.site.ResponseInfo","message":"Request received","environment":"production","project":"pqsapopt","referer":"-","ncache":"hit","contentLenght":"15279","method":"GET","responseTime":"0","host":"sapo.pt","protocolVersion":"HTTP/1.1","userAgent":"kube-probe/1.19","remote":"10.135.8.46","uri":"/","tid":"bce3760c-841e-47b5-a047-2753e606e103","status":"200"}' >> /var/log/server.log
+
+echo '{"cont.level":"INFO","cont.thread":"epollEventLoopGroup-3-17","cont.logger":"pt.sapo.sapofe.site.ResponseInfo","cont.message":"Request received","cont.environment":"production","cont.project":"pqsapopt","cont.referer":"-","cont.ncache":"hit","cont.contentLenght":"15279","cont.method":"GET","cont.responseTime":"0","cont.host":"sapo.pt","cont.protocolVersion":"HTTP/1.1","cont.userAgent":"kube-probe/1.19","cont.remote":"10.135.8.46","cont.uri":"/","cont.tid":"bce3760c-841e-47b5-a047-2753e606e103","cont.status":"200"}' >> /var/log/server.log
+```
+
 ## ~/.kube/config
 ```bash
 apiVersion: v1

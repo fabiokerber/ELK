@@ -30,6 +30,7 @@ filebeat.config.modules:
 
 setup.template.enabled: true
 setup.template.overwrite: false
+#setup.template.fields: "fields.yml"
 setup.template.name: "filebeat-%{[agent.version]}-${HOSTNAME}-template"
 setup.template.settings:
   index.number_of_shards: 1
@@ -63,6 +64,14 @@ processors:
   - add_cloud_metadata: ~
   - add_docker_metadata: ~
   - add_kubernetes_metadata: ~
+
+  - decode_json_fields:
+      fields: ["message"]
+      process_array: false
+      max_depth: 2
+      target: ""
+      overwrite_keys: true
+      add_error_key: false
 
   - drop_fields:
       fields: [
