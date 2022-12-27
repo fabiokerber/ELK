@@ -9,16 +9,28 @@ filebeat.inputs:
     - /var/log/server.log
   fields:
     reference.file: server.log
-  exclude_lines: ['minim']
+  pipeline: example-pipeline
 
 - type: filestream
-  id: srv01-network-log
+  id: srv01-simple-log
   enabled: true
   paths:
-    - /var/log/network.log
+    - /var/log/simple.log
   fields:
-    reference.file: network.log
+    reference.file: simple.log
   exclude_lines: ['minim']
+
+# ========== DECODE JSON ==========
+
+- type: filestream
+  id: srv01-decode-log
+  enabled: true
+  paths:
+    - /var/log/decode.log
+  fields:
+    reference.file: decode.log
+
+# =================================
 
 # ============================== Filebeat modules ==============================
 
@@ -59,11 +71,7 @@ output.elasticsearch:
 
 processors:
 
-  - add_host_metadata:
-      when.not.contains.tags: forwarded
-  - add_cloud_metadata: ~
-  - add_docker_metadata: ~
-  - add_kubernetes_metadata: ~
+# ========== DECODE JSON ==========
 
   - decode_json_fields:
       fields: ["message"]
@@ -72,6 +80,8 @@ processors:
       target: ""
       overwrite_keys: true
       add_error_key: false
+
+# =================================
 
   - drop_fields:
       fields: [
@@ -93,3 +103,4 @@ processors:
         "host.os.version",
         "input.type"
         ]
+      ignore_missing: true

@@ -36,7 +36,6 @@ data:
                       multiline.negate: false
                       multiline.match: after
                       exclude_lines: ["^Verdadeiro.*|^Impr.*|^Descon.*|^Falso.*|^Piment.*"]
-
     processors:
       - drop_fields:
           when:
@@ -82,7 +81,7 @@ data:
       - decode_json_fields:
           fields: ["message"]
           process_array: false
-          max_depth: 2
+          max_depth: 3
           target: ""
           overwrite_keys: true
           add_error_key: false
@@ -92,7 +91,6 @@ data:
       hosts: '${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}'
       username: "${FILEBEAT_USERNAME:filebeat_writer}"
       password: "${FILEBEAT_PASSWORD:changeme}"
-      # index: "filebeat-k8s-%{[kubernetes.namespace]}-%{[kubernetes.container.name]}"
       indices:
         - index: "filebeat-k8s-%{[kubernetes.namespace]:unknown}-%{[kubernetes.container.name]:unknown}"
           when:
@@ -108,6 +106,6 @@ metadata:
   creationTimestamp: "2022-11-24T09:33:37Z"
   name: filebeat-filebeat-daemonset-config
   namespace: logging
-  resourceVersion: "327372022"
+  resourceVersion: "329064937"
   selfLink: /api/v1/namespaces/logging/configmaps/filebeat-filebeat-daemonset-config
   uid: 8d9fb9a1-2c6f-4b78-bf18-63df4212bf6f

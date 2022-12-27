@@ -57,27 +57,30 @@ PUT _ilm/policy/filebeat-7.17.3-srv01-policy
   - **Name:** `new_alias`
   - **Timestamp field:** @timestamp
 
-**Loop Bash**
+## SIMPLE LOGS
+
+**simple.log**
 ```bash
 #!/bin/bash
 for i in {1..25000}
 do
         echo 'Sequence:' $i
-        echo 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' | sudo tee -a /var/log/server.log
-        echo 'Ut enim ad minim veniam' | sudo tee -a /var/log/server.log
-        echo 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit' | sudo tee -a /var/log/server.log
-        echo 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit' | sudo tee -a /var/log/network.log
-        echo 'Ut enim ad minim veniam' | sudo tee -a /var/log/network.log
-        echo 'Nam libero tempore, cum soluta nobis est eligendi optio cumque' | sudo tee -a /var/log/network.log
-        echo '--------------'
+        echo 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' >> /var/log/simple.log
+        echo 'Ut enim ad minim veniam' >> /var/log/simple.log
+        echo 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit' >> /var/log/simple.log
 done
 ```
 
-**JSON > log**
-```bash
-echo '{"level":"INFO","thread":"epollEventLoopGroup-3-17","logger":"pt.sapo.sapofe.site.ResponseInfo","message":"Request received","environment":"production","project":"pqsapopt","referer":"-","ncache":"hit","contentLenght":"15279","method":"GET","responseTime":"0","host":"sapo.pt","protocolVersion":"HTTP/1.1","userAgent":"kube-probe/1.19","remote":"10.135.8.46","uri":"/","tid":"bce3760c-841e-47b5-a047-2753e606e103","status":"200"}' >> /var/log/server.log
+## JSON LOGS & GROK
 
-echo '{"cont.level":"INFO","cont.thread":"epollEventLoopGroup-3-17","cont.logger":"pt.sapo.sapofe.site.ResponseInfo","cont.message":"Request received","cont.environment":"production","cont.project":"pqsapopt","cont.referer":"-","cont.ncache":"hit","cont.contentLenght":"15279","cont.method":"GET","cont.responseTime":"0","cont.host":"sapo.pt","cont.protocolVersion":"HTTP/1.1","cont.userAgent":"kube-probe/1.19","cont.remote":"10.135.8.46","cont.uri":"/","cont.tid":"bce3760c-841e-47b5-a047-2753e606e103","cont.status":"200"}' >> /var/log/server.log
+**decode_json_fields > filebeat.yml (MUST ACTIVATE!)**
+```bash
+echo '{"cont.level":"INFO","cont.thread":"epollEventLoopGroup-3-17","cont.logger":"pt.sapo.sapofe.site.ResponseInfo","cont.message":"Request received","cont.environment":"production","cont.project":"pqsapopt","cont.referer":"-","cont.ncache":"hit","cont.contentLenght":"15279","cont.method":"GET","cont.responseTime":"0","cont.host":"sapo.pt","cont.protocolVersion":"HTTP/1.1","cont.userAgent":"kube-probe/1.19","cont.remote":"10.135.8.46","cont.uri":"/","cont.tid":"bce3760c-841e-47b5-a047-2753e606e103","cont.status":"200"}' >> /var/log/decode.log
+```
+
+**example-pipeline > ELK Pipeline**<br>
+```bash
+echo '66.3.244.1 GET /index.html 500 0.120 new other stuff' >> /var/log/server.log
 ```
 
 ## ~/.kube/config
@@ -132,7 +135,7 @@ $ kubectl -n logging --context conteudos rollout restart daemonset/filebeat-file
 $ watch kubectl -n logging --context conteudos get pods -l app=filebeat-filebeat
 ```
 
-**Links**<br>
+## Links
 https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-reference-yml.html<br>
 https://www.elastic.co/guide/en/beats/filebeat/current/configuration-template.html<br>
 https://logit.io/sources/configure/ubuntu/<br>
