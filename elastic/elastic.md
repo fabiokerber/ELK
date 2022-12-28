@@ -130,6 +130,7 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
     - Metrics
   - **Management**
     - Index Pattern Management
+    - Saved Objects Management
 
 ## User ▶︎ `Dev Tools`<br>
 
@@ -196,7 +197,8 @@ PUT _security/role/<new_role>
           "feature_visualize.all",
           "feature_logs.all",
           "feature_indexPatterns.all",
-          "feature_infrastructure.all"
+          "feature_infrastructure.all",
+          "feature_savedObjectsManagement.all"
       ],
       "resources" : [
         "space:<new_space>"
@@ -355,6 +357,35 @@ PUT _ingest/pipeline/example-pipeline
 }
 ```
 
+## Snapshot<br>
+```json
+PUT _snapshot/my_fs_backup
+{
+  "type": "fs",
+  "settings": {
+    "location": "/mnt"
+  }
+}
+
+PUT _slm/policy/elastic-snapshots
+{
+  "schedule": "0 /30 * * * ?",       
+  "name": "<snapshot-{now/d}>", 
+  "repository": "my_fs_backup",
+  "config": {
+    "indices": "*",                 
+    "include_global_state": true    
+  },
+  "retention": {                    
+    "expire_after": "1d",
+    "min_count": 2,
+    "max_count": 3
+  }
+}
+
+POST _slm/policy/elastic-snapshots/_execute
+```
+
 ## SEND LOGS
 
 ```bash
@@ -499,6 +530,11 @@ https://www.alibabacloud.com/blog/597074<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/master/high-cpu-usage.html<br>
 <br />
 
-**grok**
+**grok**<br>
 https://alexmarquardt.com/using-grok-with-elasticsearch-to-add-structure-to-your-data/<br>
 https://logz.io/blog/grok-pattern-examples-for-log-parsing/<br>
+<br />
+
+**snapshot**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-register-repository.html#snapshots-filesystem-repository<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-take-snapshot.html<br>

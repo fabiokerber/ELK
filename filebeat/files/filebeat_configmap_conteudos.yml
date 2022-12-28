@@ -62,7 +62,6 @@ data:
             - 'kubernetes.namespace_labels.cattle_io/creator'
             - 'kubernetes.namespace_labels.field_cattle_io/projectId'
             - 'kubernetes.namespace_uid'
-            - 'kubernetes.node.hostname'
             - 'kubernetes.node.labels.beta_kubernetes_io/arch'
             - 'kubernetes.node.labels.beta_kubernetes_io/os'
             - 'kubernetes.node.labels.kubernetes_io/arch'
@@ -81,7 +80,7 @@ data:
       - decode_json_fields:
           fields: ["message"]
           process_array: false
-          max_depth: 3
+          max_depth: 2
           target: ""
           overwrite_keys: true
           add_error_key: false
