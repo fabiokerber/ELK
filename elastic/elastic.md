@@ -468,12 +468,11 @@ xpack.security.http.filter.enabled: true
 ```
 
 **Dev Tools > Grok Debugger**<br>
-Sample Data<br>
+(1) - Sample Data<br>
 ```yml
 [Wed Oct 05 18:37:22.744204 2022] [:error] [pid 12683:tid 139658067420736] [client 192.168.56.124:59696] [client 192.168.56.124] ModSecurity: Access denied with code 403 (phase 2). Matched phrase "nikto" at REQUEST_HEADERS:User-Agent. [file "/etc/modsecurity/crs/rules/REQUEST-913-SCANNER-DETECTION.conf"] [line "56"] [id "913100"] [msg "Found User-Agent associated with security scanner"] [data "Matched Data: nikto found within REQUEST_HEADERS:User-Agent: mozilla/5.00 (nikto/2.1.5) (evasions:none) (test:000562)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.2.0"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-reputation-scanner"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "OWASP_CRS/AUTOMATION/SECURITY_SCANNER"] [tag "WASCTC/WASC-21"] [tag "OWASP_TOP_10/A7"] [tag "PCI/6.5.10"] [hostname "sales.kifarunix.com"] [uri "/index.php"] [unique_id "Yz3O4pMZhpOcYpdhYgoXwQAAAEs"]
 ```
-
-Grok Pattern<br>
+(1) - Grok Pattern<br>
 ```yml
 \[(?<event_date>%{DAY}\s+%{MONTH}\s+%{MONTHDAY}\s+%{TIME}\s+%{YEAR})\]\s+\[\:(?<log_level>\w+)\]\s+\S+.+client\s+(?<source_ip>%{IP})\]\s+(?<error_message>ModSecurity\S+.+code\s+(?<status_code>%{INT}).+)\s+\[file\s+\"(?<rules_file>\S+.+)\"\]\s+\[line\s+\"(?<rule_line_num>%{INT})\"\]\s+\[id\s+\"(?<rule_id>%{INT})\"\]\s+\[msg\s+\"(?<msg>\S+.+)\"\]\s+\[data\s+\"(?<data>\S+.+)\"\]\s+\[severity\s+\"(?<severity>\w+)\"\]\s+\[ver\s+\"(?<owasp_crs_version>\S+)\"\]\s+(?<tags>\S+.+)\s+\[hostname\s+\"(?<hostname>%{IPORHOST})\"\]\s+\[uri\s+\"(?<uri>\S+.+)\"\]\s+\[unique_id\s+\"(?<unique_id>\S+.+)\"\]
 
@@ -482,22 +481,21 @@ Grok Pattern<br>
 ---- Replace all \s+ with %{SPACE}+, \S+ with %{NOTSPACE}+, \d with %{INT}, \w with %{WORD} ----
 ```
 
-Sample Data (2)<br>
+(2) - Sample Data<br>
 ```yml
 [Wed Oct 05 18:37:22.744204 2022] [:error] [client 192.168.56.124:59696] [client 192.168.56.124] [unique_id "Yz3O4pMZhpOcYpdhYgoXwQAAAEs"]
 ```
-
-Grok Pattern (2)<br>
+(2) - Grok Pattern<br>
 ```yml
 \[(?<event_date>%{DAY}\s+%{MONTH}\s+%{MONTHDAY}\s+%{TIME}\s+%{YEAR})\]\s+\[\:(?<log_level>\w+)\]\s+\S+.+client\s+(?<source_ip>%{IP})\]\s+\[unique_id\s+\"(?<unique_id>\S+.+)\"\]
 ```
 
-Sample Data (3)<br>
+(3) - Sample Data<br>
 ```yml
 0,2018-12-17 22:40:30.000,25980000,92,True,0,400,33,0,2018-12-16 22:40:30.000,2018-12-17 05:53:30.000,433,17,32,1,1,18,2018-12-17,Very Awake
 ```
 
-Grok Pattern (3)<br>
+(3) - Grok Pattern<br>
 ```yml
 %{NUMBER:ID},%{TIMESTAMP_ISO8601:RecordedDateTimeStamp},%{NUMBER:jobId},%{NUMBER:Efficiency},%{DATA:IsMainSleep},%{NUMBER:MinutesAfterWakeup},%{NUMBER:MinutesAsleep},%{NUMBER:MinutesAwake},%{NUMBER:MinutesToFallAsleep},%{TIMESTAMP_ISO8601:SleepStartTime},%{TIMESTAMP_ISO8601:SleepEndTime},%{NUMBER:TimeInBed},%{NUMBER:RestlessCount},%{NUMBER:RestlessDuration},%{NUMBER:AwakeCount},%{NUMBER:AwakeDuration},%{NUMBER:AwakeningsCount},%{DATA:DateOfSleep},%{DATA:SleepState}$
 ```
