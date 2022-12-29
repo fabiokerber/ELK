@@ -359,7 +359,7 @@ PUT _ingest/pipeline/example-pipeline
 
 ## Snapshot<br>
 ```json
-PUT _snapshot/my_fs_backup
+PUT _snapshot/fs_backup
 {
   "type": "fs",
   "settings": {
@@ -371,7 +371,7 @@ PUT _slm/policy/elastic-snapshots
 {
   "schedule": "0 /30 * * * ?",       
   "name": "<snapshot-{now/d}>", 
-  "repository": "my_fs_backup",
+  "repository": "fs_backup",
   "config": {
     "indices": "*",                 
     "include_global_state": true    
@@ -503,38 +503,43 @@ Grok Pattern (3)<br>
 ```
 
 ## Links
-https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html<br>
-https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
-<br />
-https://www.youtube.com/watch?v=z4zU5BoMixY&ab_channel=TechnologyCentral<br>
-https://www.youtube.com/watch?v=NUk9kExOlAg&ab_channel=CodeCloud%26Data<br>
-https://www.tutorialkart.com/bash-shell-scripting/bash-date-format-options-examples/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
-https://aravind.dev/elastic-data-stream/<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html<br>
-https://stackoverflow.com/questions/57957296/elasticsearch-set-default-number-of-replicas-to-0<br>
-<br />
-https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
-https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
-https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
-https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
-https://github.com/elastic/elasticsearch/issues/32531<br>
-https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
-<br />
+**Indexes**<br>
+https://aravind.dev/elastic-data-stream/
+
+**Management**<br>
 https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
-https://linuxhint.com/elasticsearch-shard-list/<br>
+https://linuxhint.com/elasticsearch-shard-list<br>
 https://keepgrowing.in/tools/how-to-find-and-diagnose-unassigned-elasticsearch-shards/<br>
 https://www.alibabacloud.com/blog/597074<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/master/high-cpu-usage.html<br>
-<br />
+
+**Scalability**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html<br>
+https://dattell.com/data-architecture-blog/elasticsearch-shards-definitions-sizes-optimizations-and-more/<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html<br>
+https://stackoverflow.com/questions/57957296/elasticsearch-set-default-number-of-replicas-to-0<br>
+
+**Security**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/master/security-basic-setup.html<br>
+https://www.ibm.com/docs/en/sle/10.2.0?topic=elasticsearch-enabling-https<br>
+
+**Structure**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html<br>
+https://discuss.elastic.co/t/import-ca-cert-as-privatekeyentry-to-http-keystore-solve-unable-to-create-enrollment-token-error/313780<br>
+https://stackoverflow.com/questions/67108012/where-does-elasticsearch-certificates-located<br>
+https://github.com/elastic/elasticsearch/issues/32531<br>
+
+**Docker**<br>
+https://www.baeldung.com/ops/docker-compose-multiple-commands<br>
 
 **grok**<br>
 https://alexmarquardt.com/using-grok-with-elasticsearch-to-add-structure-to-your-data/<br>
 https://logz.io/blog/grok-pattern-examples-for-log-parsing/<br>
 <br />
 
-**snapshot**<br>
+**Snapshot**<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-register-repository.html#snapshots-filesystem-repository<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-take-snapshot.html<br>
+https://www.alibabacloud.com/help/en/elasticsearch/latest/create-manual-snapshots-and-restore-data-from-manual-snapshots<br>
