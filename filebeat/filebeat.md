@@ -136,14 +136,20 @@ $ watch kubectl -n logging --context conteudos get pods -l app=filebeat-filebeat
 ```
 
 ## Links
+**Structure**<br>
 https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-reference-yml.html<br>
 https://www.elastic.co/guide/en/beats/filebeat/current/configuration-template.html<br>
+
+**Install**<br>
 https://logit.io/sources/configure/ubuntu/<br>
 https://doc.hcs.huawei.com/usermanual/mrs/mrs_01_1501.html<br>
 https://logz.io/blog/filebeat-tutorial/<br>
+
+**Docker**<br>
 https://github.com/shazChaudhry/docker-elastic/blob/master/filebeat-docker-compose.yml<br>
 https://gigi.nullneuron.net/gigilabs/filebeat-elasticsearch-and-kibana-with-docker-compose/<br>
-https://linuxhint.com/bash-for-loop-1-to-10/<br>
+
+**Structure**<br>
 https://discuss.elastic.co/t/filebeat-output-two-conditions/135130/2<br>
 https://stackoverflow.com/questions/72188167/filebeat-how-to-create-new-field-from-the-path<br>
 https://appliedaiconsulting.com/what-is-filebeat-and-why-is-it-imperative/<br>
