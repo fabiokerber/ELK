@@ -298,6 +298,10 @@ PUT _component_template/<new_component_template>
   }
 }
 ```
+```diff
++ **Mapping:** Mapped fields will be affected only next index creation
+```
+Observação sobre mapeamento a partir do próximo índice a ser criado
 
 **Create `new_index_template` [🔗Create or update index template API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html)**<br>
 ```json
@@ -342,7 +346,7 @@ PUT <new_alias>-000001
 ```json
 PUT _ingest/pipeline/example-pipeline
 {
-  "description": "Parse Example message",
+  "description": "Example message",
   "processors": [
     {
       "grok": {
@@ -358,20 +362,24 @@ PUT _ingest/pipeline/example-pipeline
 ```
 
 ## Snapshot<br>
+**File System**
 ```json
-PUT _snapshot/fs_backup
+PUT _snapshot/fs-snapshots
 {
   "type": "fs",
   "settings": {
     "location": "/mnt"
   }
 }
+```
 
-PUT _slm/policy/elastic-snapshots
+**Snapshot > all indexes**
+```json
+PUT _slm/policy/full-snapshots
 {
   "schedule": "0 /30 * * * ?",       
-  "name": "<snapshot-{now/d}>", 
-  "repository": "fs_backup",
+  "name": "<full-snapshot-{now/d}>", 
+  "repository": "fs-snapshots",
   "config": {
     "indices": "*",                 
     "include_global_state": true    
@@ -382,8 +390,34 @@ PUT _slm/policy/elastic-snapshots
     "max_count": 3
   }
 }
+```
 
-POST _slm/policy/elastic-snapshots/_execute
+**Snapshot > Exclude filebeat* Indexes, saves all configs**
+```json
+PUT _slm/policy/config-snapshots
+{
+  "schedule": "0 /30 * * * ?",       
+  "name": "<config-snapshot-{now/d}>",
+  "repository": "fs-snapshots",
+  "config": {
+    "indices": "-filebeat*",                 
+    "include_global_state": true    
+  },
+  "retention": {                    
+    "expire_after": "1d",
+    "min_count": 2,
+    "max_count": 3
+  }
+}
+```
+```diff
++ **Config Snapshots:** Pipelines, ILM Policies, Index Patterns, Templates, Spaces, Queries and Dashboards 
+```
+
+**Execute Snapshot**
+```json
+POST _slm/policy/full-snapshots/_execute
+POST _slm/policy/config-snapshots/_execute
 ```
 
 ## SEND LOGS
@@ -540,3 +574,5 @@ https://logz.io/blog/grok-pattern-examples-for-log-parsing/<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-register-repository.html#snapshots-filesystem-repository<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-take-snapshot.html<br>
 https://www.alibabacloud.com/help/en/elasticsearch/latest/create-manual-snapshots-and-restore-data-from-manual-snapshots<br>
+https://stackoverflow.com/questions/54149793/exclude-indices-from-elasticsearch-snapshots<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html<br>
