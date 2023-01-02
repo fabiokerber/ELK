@@ -1,20 +1,20 @@
-# Elastic
+# ELASTIC
 
 ## API - Dev Tools [🔗cURL](https://curl.se/docs/manpage.html)<br>
 
-**User**
+**User**<br>
 ```yml
 GET _security/user
 GET _security/user/<user>
 ```
 
-**Role**
+**Role**<br>
 ```yml
 GET _security/role
 GET _security/role/<role>
 ```
 
-**Index**
+**Index**<br>
 ```yml
 GET <index>
 GET _cat/indices/<index>*?v=true&s=index
@@ -32,13 +32,13 @@ GET _index_template
 GET _index_template/<index_template>
 ```
 
-**Aliases**
+**Aliases**<br>
 ```yml
 GET _aliases
 GET _aliases/<alias>
 ```
 
-**ILM**
+**ILM**<br>
 ```yml
 GET _ilm/policy
 GET _ilm/policy/<policy>
@@ -47,14 +47,14 @@ GET <index>*/_ilm/explain?human
 GET /_ilm/status
 ```
 
-**Shards**
+**Shards**<br>
 ```yml
 GET _cat/shards/?v=true
 GET _cat/shards/<index>?v=true&s=prirep
 GET _cat/shards/<index>*?v=true&s=prirep
 ```
 
-**Elastic System**
+**Elastic System**<br>
 ```yml
 *HEALTH*
 GET _cat/health?v&pretty
@@ -342,7 +342,8 @@ PUT <new_alias>-000001
 + **Name:** `new_alias` > results docs from just one alias
 ```
 
-## Pipeline ingest JSON log<br>
+## PIPELINE INGEST JSON LOG<br>
+
 ```json
 PUT _ingest/pipeline/example-pipeline
 {
@@ -361,8 +362,9 @@ PUT _ingest/pipeline/example-pipeline
 }
 ```
 
-## Snapshot<br>
-**File System**
+## SNAPSHOT
+
+**File System**<br>
 ```json
 PUT _snapshot/fs-snapshots
 {
@@ -373,7 +375,7 @@ PUT _snapshot/fs-snapshots
 }
 ```
 
-**Snapshot > all indexes**
+**Snapshot > all indexes**<br>
 ```json
 PUT _slm/policy/full-snapshots
 {
@@ -392,7 +394,7 @@ PUT _slm/policy/full-snapshots
 }
 ```
 
-**Snapshot > Exclude filebeat* Indexes, saves all configs**
+**Snapshot > Exclude filebeat* Indexes, saves all configs**<br>
 ```json
 PUT _slm/policy/config-snapshots
 {
@@ -414,7 +416,7 @@ PUT _slm/policy/config-snapshots
 + **Config Snapshots:** Pipelines, ILM Policies, Index Patterns, Templates, Spaces, Queries and Dashboards 
 ```
 
-**Execute Snapshot**
+**Execute Snapshot**<br>
 ```json
 POST _slm/policy/full-snapshots/_execute
 POST _slm/policy/config-snapshots/_execute
@@ -435,9 +437,9 @@ $ chmod +x loop.sh
 $ bash loop.sh
 ```
 
-## Extra
+## EXTRA
 
-**Allow/Deny Logs - API ▶︎ `Dev Tools`**
+**Allow/Deny Logs - API ▶︎ `Dev Tools`**<br>
 ```json
 PUT /_cluster/settings
 {
@@ -534,7 +536,57 @@ xpack.security.http.filter.enabled: true
 %{NUMBER:ID},%{TIMESTAMP_ISO8601:RecordedDateTimeStamp},%{NUMBER:jobId},%{NUMBER:Efficiency},%{DATA:IsMainSleep},%{NUMBER:MinutesAfterWakeup},%{NUMBER:MinutesAsleep},%{NUMBER:MinutesAwake},%{NUMBER:MinutesToFallAsleep},%{TIMESTAMP_ISO8601:SleepStartTime},%{TIMESTAMP_ISO8601:SleepEndTime},%{NUMBER:TimeInBed},%{NUMBER:RestlessCount},%{NUMBER:RestlessDuration},%{NUMBER:AwakeCount},%{NUMBER:AwakeDuration},%{NUMBER:AwakeningsCount},%{DATA:DateOfSleep},%{DATA:SleepState}$
 ```
 
-## Links
+**Change Mapping Existing Index**<br>
+```json
+########## CURRENT ##########
+
+PUT /filebeat-7.17.3-srv01-000003/_mapping
+{
+  "properties": {
+    "cont.numero": {
+      "type": "long"
+    }
+  }
+}
+
+GET filebeat-7.17.3-srv01-000003
+
+########## TEMPLATE ##########
+
+PUT _index_template/filebeat-7.17.3-srv01
+{
+    "index_patterns" : [
+        "filebeat-7.17.3-srv01-*"
+    ],
+    "template": {
+      "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0,
+        "index.lifecycle.name": "filebeat-7.17.3-srv01-policy",
+        "index.lifecycle.rollover_alias": "filebeat-7.17.3-srv01"
+      },
+      "mappings": {
+        "properties": {
+          "created_at": {
+            "type": "date",
+            "format": "EEE dd MMM yyyy HH:mm:ss Z"
+          },
+          "cont.status": {
+            "type": "long"
+          },
+          "cont.numero": {
+            "type": "long"
+        }
+      }
+    }
+  }
+}
+
+GET _index_template/filebeat-7.17.3-srv01
+```
+
+## LINKS
+
 **Indexes**<br>
 https://aravind.dev/elastic-data-stream/
 
