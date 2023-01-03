@@ -102,11 +102,12 @@ $ /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kib
 - Space: `new_space`
 - Background color: `background_color`
 - Index: `new_index`
-- Index component template: `new_index_component_template`
+- Index component template: `default-replica-component-template`
+- Index component template: `default-mapping-component-template`
 - Index template: `new_index_template`
 - Role: `new_role`
 - Alias: `new_alias`
-- ILM Policy: `new_policy`
+- ILM Policy: `15-days-policy`
 - User: `new_user`
 - User full name: `full_name`
 - User email: `email`<br>
@@ -229,9 +230,9 @@ PUT _security/user/<new_user>
 
 ## ILM ▶︎ `Dev Tools`<br>
 
-**Create `new_policy` [🔗Create or update lifecycle policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html)**<br>
+**Create `15-days-policy` [🔗Create or update lifecycle policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html)**<br>
 ```json
-PUT _ilm/policy/<new_policy>
+PUT _ilm/policy/15-days-policy
 {
     "policy": {
       "phases" : {
@@ -276,17 +277,21 @@ PUT _ilm/policy/<new_policy>
 
 ## Index ▶︎ `Dev Tools`<br>
 
-**Create `new_component_template` [🔗Create or update component template API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-component-template.html)**<br>
+**Create `default-replica-component-template` and `default-mapping-component-template` [🔗Create or update component template API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-component-template.html)**<br>
 ```json
-PUT _component_template/<new_component_template>
+PUT _component_template/default-replica-component-template
 {
   "template": {
     "settings": {
       "number_of_shards": 3,
-      "number_of_replicas": 1,
-      "index.lifecycle.name": "<new_policy>",
-      "index.lifecycle.rollover_alias": "<new_alias>"
-    },
+      "number_of_replicas": 1
+    }
+  }
+}
+
+PUT _component_template/default-mapping-component-template
+{
+  "template": {
     "mappings": {
       "properties": {
         "created_at": {
@@ -301,17 +306,23 @@ PUT _component_template/<new_component_template>
 ```diff
 + **Mapping:** Mapped fields will be affected only next index creation
 ```
-Observação sobre mapeamento a partir do próximo índice a ser criado
 
 **Create `new_index_template` [🔗Create or update index template API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html)**<br>
 ```json
 PUT _index_template/<new_index_template>
 {
+  "template": {
+    "settings": {
+      "index.lifecycle.name": "15-days-policy",
+      "index.lifecycle.rollover_alias": "<new_alias>"
+    }
+  },
   "index_patterns": [
-    "<new_alias>*"
+    "<new_alias>-*"
   ],
   "composed_of": [
-    "<new_component_template>"
+    "default-mapping-component-template",
+    "default-replica-component-template"
   ]
 }
 ```
@@ -429,7 +440,7 @@ POST _slm/policy/config-snapshots/_execute
 for i in {1..25000}
 do
         NOW=$(date '+%Y-%m-%dT%H:%M:%S.%3NZ')
-        curl -H "Content-Type: application/json" -X PUT "http://<ip>:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
+        curl -H "Content-Type: application/json" -X POST "http://<ip>:9200/server-logs/_doc" -d '{"@timestamp": "'"${NOW}"'","info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.","environment": "stg"}'
         echo "" 
 done
 
@@ -589,6 +600,9 @@ GET _index_template/filebeat-7.17.3-srv01
 
 **Indexes**<br>
 https://aravind.dev/elastic-data-stream/
+
+**Templates**<br>
+https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html
 
 **Management**<br>
 https://stackoverflow.com/questions/66236879/get-the-filtered-response-in-elasticsearch-cat-apis<br>
