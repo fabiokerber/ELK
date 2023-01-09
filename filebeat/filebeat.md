@@ -83,7 +83,7 @@ echo '{"cont.level":"INFO","cont.thread":"epollEventLoopGroup-3-17","cont.logger
 echo '66.3.244.1 GET /index.html 500 0.120 new other stuff' >> /var/log/server.log
 ```
 
-**ResponseTime > Type: long (.log)**<br>
+**ResponseTime > Type: long (container log)**<br>
 ```json
 {"log":"{\"timestamp\":\"2023-01-07T13:36:04.102\",\"level\":\"INFO\",\"thread\":\"epollEventLoopGroup-3-27\",\"logger\":\"pt.sapo.sapofe.site.ResponseInfo\",\"message\":\"Request received\",\"environment\":\"production\",\"project\":\"pqsapopt\",\"referer\":\"-\",\"ncache\":\"hit\",\"contentLenght\":\"15273\",\"method\":\"GET\",\"responseTime\":\"{\\\"value\\\":0}\",\"protocolVersion\":\"HTTP/1.1\",\"userAgent\":\"kube-probe/1.19\",\"remote\":\"10.135.8.21\",\"uri\":\"/\",\"tid\":\"1f360588-e5f7-40b6-87e3-e39a5885ab10\",\"status\":\"200\"}\n","stream":"stdout","time":"2023-01-07T13:36:04.103057391Z"}
 ```
