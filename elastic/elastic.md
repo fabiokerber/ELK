@@ -45,6 +45,12 @@ GET _ilm/policy/<policy>
 GET <index>/_ilm/explain?human
 GET <index>*/_ilm/explain?human
 GET /_ilm/status
+
+*CHECK ILM EFFECTIVENESS*
+GET *filebeat*?human&filter_path=*.settings.index.creation_date_string,*.settings.index.lifecycle.name
+
+GET _cat/indices/*filebeat*?v=true&h=health,status,index,creation.date.string,docs.count,store.size,pri.store.size&s=creation.date.string:asc
+GET _ilm/policy/?filter_path=*-days-policy.policy.phases,*-days-policy.in_use_by.indices
 ```
 
 **Shards**<br>
@@ -79,12 +85,6 @@ GET _cat/health?v&pretty
 
 *HELP*
 GET _cat/indices/?help
-
-*CHECK ILM EFFECTIVENESS*
-GET *filebeat*?human&filter_path=*.settings.index.creation_date_string,*.settings.index.lifecycle.name
-
-GET _cat/indices/*filebeat*?v=true&h=health,status,index,creation.date.string,docs.count,store.size,pri.store.size&s=creation.date.string:asc
-GET _ilm/policy/?filter_path=*-days-policy.policy.phases,*-days-policy.in_use_by.indices
 ```
 
 ```yml
