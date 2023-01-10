@@ -56,9 +56,6 @@ GET _cat/shards/<index>*?v=true&s=prirep
 
 **Elastic System**<br>
 ```yml
-*HEALTH*
-GET _cat/health?v&pretty
-
 *ILM*
 GET _cluster/settings?include_defaults=true&filter_path=*.indices.lifecycle*,*.xpack.ilm*
 
@@ -76,6 +73,18 @@ GET _cat/nodes?v=true&s=cpu:desc
 
 *DISK USAGE*
 GET _cat/allocation?v&pretty
+
+*HEALTH*
+GET _cat/health?v&pretty
+
+*HELP*
+GET _cat/indices/?help
+
+*CHECK ILM EFFECTIVENESS*
+GET *filebeat*?human&filter_path=*.settings.index.creation_date_string,*.settings.index.lifecycle.name
+
+GET _cat/indices/*filebeat*?v=true&h=health,status,index,creation.date.string,docs.count,store.size,pri.store.size&s=creation.date.string:asc
+GET _ilm/policy/?filter_path=*-days-policy.policy.phases,*-days-policy.in_use_by.indices
 ```
 
 ```yml
@@ -642,3 +651,6 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.17/snapshots-take-snap
 https://www.alibabacloud.com/help/en/elasticsearch/latest/create-manual-snapshots-and-restore-data-from-manual-snapshots<br>
 https://stackoverflow.com/questions/54149793/exclude-indices-from-elasticsearch-snapshots<br>
 https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html<br>
+
+**Cheat Sheet**<br>
+https://logz.io/blog/elasticsearch-cheat-sheet/<br>
